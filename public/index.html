@@ -125,7 +125,6 @@
         </div>
 
         <div class="space-y-6">
-          <!-- End Dimension Status Toggle -->
           <div class="bg-zinc-950 p-5 rounded-2xl border border-zinc-800">
             <div class="flex items-center justify-between mb-3">
               <div>
@@ -170,6 +169,7 @@
         <a href="#info" class="hover:text-white transition">Server Info</a>
         <a href="#commands" class="hover:text-white transition">Commands</a>
         <a href="#rules" class="hover:text-white transition">Rules</a>
+        <a href="#gallery" class="hover:text-white transition">Gallery</a>
         <a href="#vote" class="hover:text-white transition">Vote</a>
       </nav>
 
@@ -404,8 +404,55 @@
     </div>
   </section>
 
+  <!-- Server Gallery Section -->
+  <section id="gallery" class="py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-400 mb-2">Visual Showcase</h2>
+        <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Server Gallery</h3>
+        <p class="text-xs sm:text-sm text-zinc-400 mt-2">Take a look at builds, base designs, and community events on StoneSMP.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 group">
+          <div class="h-48 bg-zinc-900 overflow-hidden relative">
+            <img src="gallery-1.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=60'" alt="Spawn & Hub" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+          </div>
+          <div class="p-5">
+            <h4 class="text-base font-bold text-white mb-1">Spawn & Hub</h4>
+            <p class="text-xs text-zinc-400">The main community hub where players gather, trade, and prepare for adventures.</p>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 group">
+          <div class="h-48 bg-zinc-900 overflow-hidden relative">
+            <img src="gallery-2.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=600&auto=format&fit=crop&q=60'" alt="Base Building" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+          </div>
+          <div class="p-5">
+            <h4 class="text-base font-bold text-white mb-1">Tactical Bases</h4>
+            <p class="text-xs text-zinc-400">Hidden clan bases and fortifications built deep within the 7.5k world border.</p>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl overflow-hidden border border-zinc-800 group">
+          <div class="h-48 bg-zinc-900 overflow-hidden relative">
+            <img src="gallery-3.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=60'" alt="PvP & Events" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+          </div>
+          <div class="p-5">
+            <h4 class="text-base font-bold text-white mb-1">PvP & Lifesteal Action</h4>
+            <p class="text-xs text-zinc-400">High stakes combat where every heart matters during clan raids and events.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- Voting Section -->
-  <section id="vote" class="py-16">
+  <section id="vote" class="py-16 bg-zinc-950/60 border-t border-zinc-900">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       
       <div class="text-center mb-12">
@@ -483,6 +530,8 @@
       </div>
 
       <div class="flex items-center gap-4">
+        <!-- Secret Admin Button Trigger in Footer -->
+        <button onclick="document.getElementById('admin-modal').classList.remove('hidden')" class="text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition">Admin Panel</button>
         <p class="text-center sm:text-right max-w-md text-zinc-500 text-[11px] leading-relaxed">
           Not an official Minecraft product. StoneSMP is not affiliated with or endorsed by Mojang Synergies AB or Microsoft.
         </p>
@@ -511,7 +560,6 @@
     function handleAdminLogin(event) {
       event.preventDefault();
       const passcode = document.getElementById('admin-passcode-input').value;
-      // Passcode validation check mapping to environment variables or session storage
       if (passcode === 'admin123' || passcode === 'ADMIN_PASSCODE') {
         document.getElementById('admin-login-step').classList.add('hidden');
         document.getElementById('admin-panel-step').classList.remove('hidden');
@@ -545,7 +593,6 @@
       }
     }
 
-    // Server player status checker fetch logic simulation
     async function checkServerStatus() {
       try {
         const res = await fetch('https://api.mcsrvstat.us/3/stonesmp.xyz');
