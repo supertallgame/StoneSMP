@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoneSMP - Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #0f0f13; }
+    ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f52; }
+  </style>
+</head>
+<body class="bg-[#0b0b0e] text-white min-h-screen flex flex-col">
+  
+  <!-- Navbar -->
+  <header class="p-6 flex justify-between items-center border-b border-gray-800">
+    <a href="/" class="font-bold text-xl tracking-wider">STONESMP</a>
+    <nav class="flex items-center space-x-6">
+      <a href="/" class="text-gray-400 hover:text-white transition">Home</a>
+      <a href="/gallery" class="text-white font-semibold">Gallery</a>
+    </nav>
+  </header>
+
+  <!-- Main Gallery Content -->
+  <main class="flex-grow max-w-6xl mx-auto p-6 w-full">
+    <h1 class="text-3xl font-extrabold mb-2 text-center">Server Gallery</h1>
+    <p class="text-gray-400 text-center mb-8">Moments and screenshots captured across StoneSMP.</p>
+
+    <!-- Dynamic Grid for Images -->
+    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Images will load here dynamically -->
+    </div>
+  </main>
+
+  <footer class="p-6 text-center text-gray-500 border-t border-gray-800 text-sm">
+    &copy; 2026 StoneSMP. All rights reserved.
+  </footer>
+
+  <script>
+    // Fetch uploaded images from your admin storage/backend endpoint
+    async function loadGallery() {
+      const grid = document.getElementById('gallery-grid');
+      try {
+        const response = await fetch('/api/gallery'); // Connects to your admin image storage endpoint
+        const images = await response.json();
+        
+        if (images.length === 0) {
+          grid.innerHTML = `<p class="col-span-full text-center text-gray-500">No images uploaded yet.</p>`;
+          return;
+        }
+
+        grid.innerHTML = images.map(img => `
+          <div class="bg-[#15151c] rounded-xl overflow-hidden border border-gray-800 shadow-lg group">
+            <img src="${img.url}" alt="${img.title || 'Server Image'}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
+            <div class="p-4">
+              <p class="text-sm text-gray-300 truncate">${img.title || 'Admin Upload'}</p>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        // Fallback placeholder if API isn't wired yet
+        grid.innerHTML = `<p class="col-span-full text-center text-gray-500">Gallery storage endpoint ready for admin hookup.</p>`;
+      }
+    }
+    loadGallery();
+  </script>
+</body>
+</html>
