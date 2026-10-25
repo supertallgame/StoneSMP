@@ -168,7 +168,7 @@
         Experience <strong class="text-zinc-200 font-semibold">Lifesteal SMP</strong> in Season 2. High-stakes survival Java server.
       </p>
 
-      <!-- Java IP Copy Button (play.stonesmp.xyz) -->
+      <!-- Java IP Copy Button -->
       <div class="flex items-center justify-center max-w-md mx-auto mb-12">
         <button onclick="copyToClipboard('play.stonesmp.xyz', 'Java Server IP copied!')" class="w-full glass-card hover:bg-zinc-800/80 px-8 py-4 rounded-2xl flex items-center justify-between gap-4 group transition cursor-pointer border border-zinc-700/60 hover:border-brand-500/60 shadow-xl">
           <div class="text-left">
@@ -263,7 +263,7 @@
     </div>
   </section>
 
-  <!-- Voting Section -->
+  <!-- Voting Section with Website Icons -->
   <section id="vote" class="py-16">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
@@ -273,24 +273,38 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Minecraft Buzz -->
         <div class="glass-card p-6 rounded-2xl border border-zinc-800 flex flex-col items-center text-center">
+          <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
+            <img src="https://www.google.com/s2/favicons?domain=minecraft.buzz&sz=128" onerror="this.onerror=null; this.src='https://minecraft.buzz/favicon.ico'" alt="Minecraft Buzz Icon" class="w-full h-full object-contain rounded-lg">
+          </div>
           <h4 class="font-bold text-lg text-white mb-1">Minecraft Buzz</h4>
           <p class="text-xs text-zinc-400 mb-6 flex-1">Vote daily on Minecraft Buzz to raise StoneSMP's rank.</p>
           <a href="http://minecraft.buzz/server/stonesmp" target="_blank" rel="noopener noreferrer" class="w-full bg-zinc-800 hover:bg-brand-600 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on Buzz</a>
         </div>
 
+        <!-- MinecraftServers.org -->
         <div class="glass-card p-6 rounded-2xl border border-brand-500/40 relative flex flex-col items-center text-center glow-purple">
           <span class="absolute -top-3 px-3 py-0.5 bg-brand-500 text-[10px] font-extrabold uppercase tracking-widest text-white rounded-full">Top Site</span>
+          <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
+            <img src="https://www.google.com/s2/favicons?domain=minecraftservers.org&sz=128" onerror="this.onerror=null; this.src='https://minecraftservers.org/favicon.ico'" alt="MinecraftServers.org Icon" class="w-full h-full object-contain rounded-lg">
+          </div>
           <h4 class="font-bold text-lg text-white mb-1">MinecraftServers.org</h4>
           <p class="text-xs text-zinc-400 mb-6 flex-1">Cast your vote on MinecraftServers.org to support server visibility.</p>
           <a href="http://minecraftservers.org/server/684708" target="_blank" rel="noopener noreferrer" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on Servers.org</a>
         </div>
 
+        <!-- Minecraft-Serverlist -->
         <div class="glass-card p-6 rounded-2xl border border-zinc-800 flex flex-col items-center text-center">
+          <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
+            <img src="https://www.google.com/s2/favicons?domain=minecraft-serverlist.com&sz=128" onerror="this.onerror=null; this.src='https://minecraft-serverlist.com/favicon.ico'" alt="Minecraft-Serverlist Icon" class="w-full h-full object-contain rounded-lg">
+          </div>
           <h4 class="font-bold text-lg text-white mb-1">Minecraft-Serverlist</h4>
           <p class="text-xs text-zinc-400 mb-6 flex-1">Help new players find StoneSMP.</p>
           <a href="http://minecraft-serverlist.com/server/6876" target="_blank" rel="noopener noreferrer" class="w-full bg-zinc-800 hover:bg-brand-600 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on List</a>
         </div>
+
       </div>
     </div>
   </section>
@@ -326,7 +340,7 @@
         document.getElementById('admin-panel-step').classList.remove('hidden');
         document.getElementById('admin-error-msg').classList.add('hidden');
       } else {
-        document.getElementById('admin-error-msg').classList.remove('hidden');
+        document.getElementById('admin-error-msg').classList.add('hidden');
       }
     }
 
@@ -355,7 +369,6 @@
       }
     }
 
-    // Live Auto-Polling Status Checker targeting play.stonesmp.xyz
     async function checkServerStatus() {
       try {
         const res = await fetch('https://api.mcsrvstat.us/3/play.stonesmp.xyz');
