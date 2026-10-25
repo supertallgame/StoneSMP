@@ -1,5 +1,7 @@
 {
   "name": "stonesmp",
-  "compatibility_date": "2026-10-01",
-  "pages_build_output_dir": "./public"
+  "compatibility_date": "2026-01-01",
+  "assets": {
+    "directory": "./public"
+  }
 }
