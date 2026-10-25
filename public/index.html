@@ -87,6 +87,65 @@
     </div>
   </div>
 
+  <!-- Admin Modal -->
+  <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card bg-zinc-900 border border-zinc-700/80 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+      <button onclick="closeAdminModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Admin Auth Step -->
+      <div id="admin-login-step">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-brand-500/20 text-brand-400 rounded-2xl mx-auto flex items-center justify-center mb-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-white">Admin Authentication</h3>
+          <p class="text-xs text-zinc-400 mt-1">Enter passcode to access StoneSMP controls.</p>
+        </div>
+
+        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Passcode</label>
+            <input id="admin-passcode-input" type="password" maxlength="10" placeholder="••••" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-white focus:outline-none focus:border-brand-500">
+          </div>
+          <p id="admin-error-msg" class="text-xs text-red-400 text-center hidden font-medium">Incorrect passcode. Please try again.</p>
+          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm py-3 rounded-xl transition">Unlock Admin Panel</button>
+        </form>
+      </div>
+
+      <!-- Admin Control Panel Step -->
+      <div id="admin-panel-step" class="hidden">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-zinc-800">
+          <div>
+            <h3 class="text-lg font-bold text-white">StoneSMP Admin Panel</h3>
+            <p class="text-xs text-emerald-400 font-semibold">● Logged In</p>
+          </div>
+          <button onclick="logoutAdmin()" class="text-xs text-zinc-400 hover:text-red-400 underline">Log Out</button>
+        </div>
+
+        <div class="space-y-6">
+          <!-- End Dimension Status Toggle -->
+          <div class="bg-zinc-950 p-5 rounded-2xl border border-zinc-800">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h4 class="text-sm font-bold text-white">End Dimension Status</h4>
+                <p class="text-xs text-zinc-400">Controls the End status displayed on the site.</p>
+              </div>
+              <span id="admin-end-badge" class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-purple-500/20 text-purple-300">Opening Later</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <button id="btn-end-locked" onclick="setEndStatus(false)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl border border-zinc-700 transition">🔒 Locked (Later)</button>
+              <button id="btn-end-unlocked" onclick="setEndStatus(true)" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl border border-zinc-700 transition">🔓 Open Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Background Decorative Blurs -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-brand-600/15 rounded-full blur-[140px] pointer-events-none -z-10"></div>
   <div class="fixed bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
@@ -193,8 +252,9 @@
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Season 2 Features</h3>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
+        <!-- Gamemode Card -->
         <div class="glass-card p-6 rounded-2xl">
           <div class="w-12 h-12 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl flex items-center justify-center mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
@@ -204,6 +264,7 @@
           <p class="text-xs text-zinc-500 mt-2">Steal hearts on player kills and lose hearts on death. High-stakes survival PvP!</p>
         </div>
 
+        <!-- World Border Card -->
         <div class="glass-card p-6 rounded-2xl">
           <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
@@ -213,6 +274,7 @@
           <p class="text-xs text-zinc-500 mt-2">Perfect map size balancing exploration and action.</p>
         </div>
 
+        <!-- Team Limit Card -->
         <div class="glass-card p-6 rounded-2xl">
           <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -222,13 +284,24 @@
           <p class="text-xs text-zinc-500 mt-2">Form tactical teams with up to 5 members.</p>
         </div>
 
-        <div class="glass-card p-6 rounded-2xl">
+        <!-- Dynamic End Dimension Card -->
+        <div class="glass-card p-6 rounded-2xl sm:col-span-1 lg:col-span-1 border-purple-500/30">
+          <div id="end-card-icon" class="w-12 h-12 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <h4 class="text-zinc-400 text-xs font-bold uppercase tracking-wider mb-1">End Dimension</h4>
+          <p id="end-card-status" class="text-xl font-bold text-purple-300">Opening Later</p>
+          <p id="end-card-desc" class="text-xs text-zinc-500 mt-2">The End dimension is currently locked and will open later in the season!</p>
+        </div>
+
+        <!-- Minecraft Version Card -->
+        <div class="glass-card p-6 rounded-2xl sm:col-span-2 lg:col-span-2">
           <div class="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
           <h4 class="text-zinc-400 text-xs font-bold uppercase tracking-wider mb-1">Minecraft Version</h4>
           <p class="text-xl font-bold text-white">1.21.11</p>
-          <p class="text-xs text-zinc-500 mt-2">Make sure to connect using version 1.21.11.</p>
+          <p class="text-xs text-zinc-500 mt-2">Make sure to connect using version 1.21.11 across Java & Bedrock.</p>
         </div>
 
       </div>
@@ -409,14 +482,20 @@
         <span class="font-pixel text-xs text-zinc-300">STONE<span class="text-accent-gold">SMP</span></span>
       </div>
 
-      <p class="text-center sm:text-right max-w-md text-zinc-500 text-[11px] leading-relaxed">
-        Not an official Minecraft product. StoneSMP is not affiliated with or endorsed by Mojang Synergies AB or Microsoft.
-      </p>
+      <div class="flex items-center gap-4">
+        <p class="text-center sm:text-right max-w-md text-zinc-500 text-[11px] leading-relaxed">
+          Not an official Minecraft product. StoneSMP is not affiliated with or endorsed by Mojang Synergies AB or Microsoft.
+        </p>
+        <!-- Subtle Admin Quick Trigger Icon -->
+        <button onclick="openAdminModal()" title="Admin Login" class="text-zinc-700 hover:text-zinc-400 transition p-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </button>
+      </div>
 
     </div>
   </footer>
 
-  <!-- JavaScript Utilities & Live API Fetcher -->
+  <!-- JavaScript Utilities & Admin Logic -->
   <script>
     let toastTimeout;
     function copyToClipboard(text, customMessage = 'Copied to clipboard!') {
@@ -439,6 +518,92 @@
       });
     }
 
+    // Dynamic End Dimension State Management
+    function loadEndStatus() {
+      const isUnlocked = localStorage.getItem('stonesmp_end_unlocked') === 'true';
+      const statusText = document.getElementById('end-card-status');
+      const statusDesc = document.getElementById('end-card-desc');
+      const statusIcon = document.getElementById('end-card-icon');
+      const adminBadge = document.getElementById('admin-end-badge');
+
+      if (isUnlocked) {
+        statusText.textContent = 'Unlocked / Open Now!';
+        statusText.className = 'text-xl font-bold text-emerald-300';
+        statusDesc.textContent = 'The End dimension is officially open for exploration and dragon fights!';
+        statusIcon.className = 'w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center mb-4';
+        if (adminBadge) {
+          adminBadge.textContent = 'Unlocked';
+          adminBadge.className = 'px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-emerald-500/20 text-emerald-300';
+        }
+      } else {
+        statusText.textContent = 'Opening Later';
+        statusText.className = 'text-xl font-bold text-purple-300';
+        statusDesc.textContent = 'The End dimension is currently locked and will open later in the season!';
+        statusIcon.className = 'w-12 h-12 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mb-4';
+        if (adminBadge) {
+          adminBadge.textContent = 'Opening Later';
+          adminBadge.className = 'px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-purple-500/20 text-purple-300';
+        }
+      }
+    }
+
+    function setEndStatus(unlocked) {
+      localStorage.setItem('stonesmp_end_unlocked', unlocked ? 'true' : 'false');
+      loadEndStatus();
+    }
+
+    // Admin Modal & Auth Logic
+    function openAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      const loginStep = document.getElementById('admin-login-step');
+      const panelStep = document.getElementById('admin-panel-step');
+      const isLoggedIn = localStorage.getItem('stonesmp_admin_logged_in') === 'true';
+
+      modal.classList.remove('hidden');
+
+      if (isLoggedIn) {
+        loginStep.classList.add('hidden');
+        panelStep.classList.remove('hidden');
+      } else {
+        loginStep.classList.remove('hidden');
+        panelStep.classList.add('hidden');
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+      if (window.location.hash === '#admin') {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+      }
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const input = document.getElementById('admin-passcode-input').value.trim();
+      const errorMsg = document.getElementById('admin-error-msg');
+
+      if (input === '7594') {
+        errorMsg.classList.add('hidden');
+        localStorage.setItem('stonesmp_admin_logged_in', 'true');
+        openAdminModal();
+      } else {
+        errorMsg.classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('stonesmp_admin_logged_in');
+      openAdminModal();
+    }
+
+    // Check hash route for #admin
+    function checkAdminHash() {
+      if (window.location.hash === '#admin') {
+        openAdminModal();
+      }
+    }
+
+    // Fetch Live MC Server Status
     async function fetchServerStatus() {
       const statusIndicator = document.getElementById('status-indicator');
       const statusText = document.getElementById('status-text');
@@ -467,6 +632,10 @@
       }
     }
 
+    // Initialize state
+    window.addEventListener('hashchange', checkAdminHash);
+    checkAdminHash();
+    loadEndStatus();
     fetchServerStatus();
   </script>
 </body>
