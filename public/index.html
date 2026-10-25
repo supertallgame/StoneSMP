@@ -25,12 +25,12 @@
         extend: {
           colors: {
             brand: {
-              50: '#f5f3ff',
-              100: '#ede9fe',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              700: '#6d28d9',
-              900: '#4c1d95',
+              50: '#fefce8',
+              100: '#fef9c3',
+              500: '#eab308',
+              600: '#ca8a04',
+              700: '#a16207',
+              900: '#713f12',
             },
             accent: {
               gold: '#fbbf24',
@@ -48,14 +48,14 @@
   </script>
 
   <style>
-    .glow-purple { box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.4); }
+    .glow-yellow { box-shadow: 0 0 30px -5px rgba(234, 179, 8, 0.4); }
     .glass-card { background: rgba(24, 24, 27, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .glass-card:hover { border-color: rgba(139, 92, 246, 0.4); }
-    .bg-grid-pattern { background-image: radial-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 1px); background-size: 24px 24px; }
+    .glass-card:hover { border-color: rgba(234, 179, 8, 0.4); }
+    .bg-grid-pattern { background-image: radial-gradient(rgba(234, 179, 8, 0.15) 1px, transparent 1px); background-size: 24px 24px; }
     .text-pixel-shadow { text-shadow: 2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-brand-500 selection:text-white min-h-screen flex flex-col relative overflow-x-hidden">
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-brand-500 selection:text-zinc-950 min-h-screen flex flex-col relative overflow-x-hidden">
 
   <!-- Toast Notification System -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-out pointer-events-none">
@@ -92,7 +92,7 @@
             <input id="admin-passcode-input" type="password" maxlength="10" placeholder="••••" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-white focus:outline-none focus:border-brand-500">
           </div>
           <p id="admin-error-msg" class="text-xs text-red-400 text-center hidden font-medium">Incorrect passcode. Please try again.</p>
-          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm py-3 rounded-xl transition">Unlock Admin Panel</button>
+          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-zinc-950 font-bold text-sm py-3 rounded-xl transition">Unlock Admin Panel</button>
         </form>
       </div>
 
@@ -113,7 +113,7 @@
           </div>
           <div>
             <label class="block text-[11px] font-bold text-zinc-400 uppercase mb-1">Select Image File</label>
-            <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
+            <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-zinc-950 hover:file:bg-brand-500 cursor-pointer">
           </div>
           <button onclick="handleImageUpload()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 rounded-xl transition">Publish to Gallery</button>
           <p id="upload-success-msg" class="text-xs text-emerald-400 text-center hidden font-medium">Successfully added to gallery!</p>
@@ -263,7 +263,7 @@
     </div>
   </section>
 
-  <!-- Voting Section with Website Icons -->
+  <!-- Voting Section -->
   <section id="vote" class="py-16">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
@@ -273,8 +273,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Minecraft Buzz -->
         <div class="glass-card p-6 rounded-2xl border border-zinc-800 flex flex-col items-center text-center">
           <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
             <img src="https://www.google.com/s2/favicons?domain=minecraft.buzz&sz=128" onerror="this.onerror=null; this.src='https://minecraft.buzz/favicon.ico'" alt="Minecraft Buzz Icon" class="w-full h-full object-contain rounded-lg">
@@ -284,18 +282,16 @@
           <a href="http://minecraft.buzz/server/stonesmp" target="_blank" rel="noopener noreferrer" class="w-full bg-zinc-800 hover:bg-brand-600 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on Buzz</a>
         </div>
 
-        <!-- MinecraftServers.org -->
-        <div class="glass-card p-6 rounded-2xl border border-brand-500/40 relative flex flex-col items-center text-center glow-purple">
-          <span class="absolute -top-3 px-3 py-0.5 bg-brand-500 text-[10px] font-extrabold uppercase tracking-widest text-white rounded-full">Top Site</span>
+        <div class="glass-card p-6 rounded-2xl border border-brand-500/40 relative flex flex-col items-center text-center glow-yellow">
+          <span class="absolute -top-3 px-3 py-0.5 bg-brand-500 text-[10px] font-extrabold uppercase tracking-widest text-zinc-950 rounded-full">Top Site</span>
           <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
             <img src="https://www.google.com/s2/favicons?domain=minecraftservers.org&sz=128" onerror="this.onerror=null; this.src='https://minecraftservers.org/favicon.ico'" alt="MinecraftServers.org Icon" class="w-full h-full object-contain rounded-lg">
           </div>
           <h4 class="font-bold text-lg text-white mb-1">MinecraftServers.org</h4>
           <p class="text-xs text-zinc-400 mb-6 flex-1">Cast your vote on MinecraftServers.org to support server visibility.</p>
-          <a href="http://minecraftservers.org/server/684708" target="_blank" rel="noopener noreferrer" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on Servers.org</a>
+          <a href="http://minecraftservers.org/server/684708" target="_blank" rel="noopener noreferrer" class="w-full bg-brand-600 hover:bg-brand-500 text-zinc-950 font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on Servers.org</a>
         </div>
 
-        <!-- Minecraft-Serverlist -->
         <div class="glass-card p-6 rounded-2xl border border-zinc-800 flex flex-col items-center text-center">
           <div class="w-14 h-14 bg-zinc-900 border border-zinc-700/80 rounded-2xl p-2.5 mb-4 flex items-center justify-center">
             <img src="https://www.google.com/s2/favicons?domain=minecraft-serverlist.com&sz=128" onerror="this.onerror=null; this.src='https://minecraft-serverlist.com/favicon.ico'" alt="Minecraft-Serverlist Icon" class="w-full h-full object-contain rounded-lg">
@@ -304,7 +300,6 @@
           <p class="text-xs text-zinc-400 mb-6 flex-1">Help new players find StoneSMP.</p>
           <a href="http://minecraft-serverlist.com/server/6876" target="_blank" rel="noopener noreferrer" class="w-full bg-zinc-800 hover:bg-brand-600 text-white font-bold text-xs py-3 px-4 rounded-xl transition flex items-center justify-center gap-2">Vote on List</a>
         </div>
-
       </div>
     </div>
   </section>
@@ -340,7 +335,7 @@
         document.getElementById('admin-panel-step').classList.remove('hidden');
         document.getElementById('admin-error-msg').classList.add('hidden');
       } else {
-        document.getElementById('admin-error-msg').classList.add('hidden');
+        document.getElementById('admin-error-msg').classList.remove('hidden');
       }
     }
 
