@@ -136,7 +136,6 @@
         </div>
       </a>
 
-      <!-- Cleaned Navigation Header: Emoji Removed from Gallery -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
         <a href="#info" class="hover:text-white transition">Server Info</a>
         <a href="#commands" class="hover:text-white transition">Commands</a>
@@ -333,7 +332,8 @@
       const inputEl = document.getElementById('admin-passcode-input');
       const passcode = inputEl ? inputEl.value.trim() : '';
       
-      if (passcode === '9242') {
+      // Passcode updated to 9294
+      if (passcode === '9294') {
         document.getElementById('admin-login-step').classList.add('hidden');
         document.getElementById('admin-panel-step').classList.remove('hidden');
         document.getElementById('admin-error-msg').classList.add('hidden');
