@@ -59,8 +59,9 @@
       </a>
 
       <nav class="flex items-center gap-6 text-sm font-bold text-stone-800">
-        <a href="index.html" class="hover:text-brand-700 transition">← Back to Main Site</a>
+        <a href="index.html" class="hover:text-brand-700 transition">← Main Site</a>
         <a href="gallery.html" class="hover:text-brand-700 transition">Gallery</a>
+        <a href="schematics.html" class="hover:text-brand-700 transition">Schematics</a>
       </nav>
     </div>
   </header>
@@ -68,14 +69,14 @@
   <!-- Main Container -->
   <main class="max-w-4xl mx-auto px-4 py-12 flex-1 w-full">
     
-    <!-- Login Form Screen -->
+    <!-- Login Screen -->
     <div id="admin-login-screen" class="max-w-md mx-auto glass-card p-8 rounded-3xl shadow-xl">
       <div class="text-center mb-6">
         <div class="w-14 h-14 bg-brand-500 text-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-md">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         </div>
         <h1 class="text-2xl font-extrabold text-stone-900">Admin Login</h1>
-        <p class="text-xs text-stone-700 mt-1 font-medium">Authentication required to manage server gallery.</p>
+        <p class="text-xs text-stone-700 mt-1 font-medium">Authentication required to manage server files.</p>
       </div>
 
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
@@ -88,8 +89,8 @@
       </form>
     </div>
 
-    <!-- Admin Dashboard Screen (Hidden by default) -->
-    <div id="admin-dashboard-screen" class="hidden space-y-8">
+    <!-- Admin Dashboard Screen -->
+    <div id="admin-dashboard-screen" class="hidden space-y-10">
       
       <div class="flex items-center justify-between pb-6 border-b-2 border-brand-400">
         <div>
@@ -99,9 +100,40 @@
         <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">Log Out</button>
       </div>
 
-      <!-- Upload Box -->
+      <!-- Section 1: Schematics Upload -->
       <div class="glass-card p-6 rounded-3xl space-y-4 shadow-lg">
-        <h2 class="text-lg font-bold text-stone-900">Upload New Image to Gallery</h2>
+        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+          <span>⚙️</span> Upload New Schematic File
+        </h2>
+        
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-stone-700 uppercase mb-1">Schematic Title</label>
+            <input id="schem-title" type="text" placeholder="e.g. Spawn Castle V2" class="w-full bg-white border-2 border-brand-400 rounded-xl px-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-brand-600">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 uppercase mb-1">Description (Optional)</label>
+            <input id="schem-desc" type="text" placeholder="e.g. 50x50 PVP Arena Schematic" class="w-full bg-white border-2 border-brand-400 rounded-xl px-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-brand-600">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 uppercase mb-1">Select .schem or .schematic file</label>
+            <input id="schem-file-input" type="file" accept=".schem,.schematic,.litematic" class="w-full text-xs text-stone-700 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-white hover:file:bg-brand-600 cursor-pointer">
+          </div>
+          <button onclick="handleSchematicUpload()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm py-3 rounded-xl transition shadow-md">Publish Schematic</button>
+          <p id="schem-success-msg" class="text-xs text-emerald-700 text-center hidden font-bold">Successfully uploaded schematic!</p>
+        </div>
+
+        <div class="pt-4 border-t border-brand-400/50">
+          <h3 class="text-sm font-bold text-stone-900 mb-3">Manage Schematics</h3>
+          <div id="admin-schem-list" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- Section 2: Gallery Upload -->
+      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-lg">
+        <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+          <span>📸</span> Upload Gallery Image
+        </h2>
         
         <div class="space-y-3">
           <div>
@@ -113,15 +145,12 @@
             <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-stone-700 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-white hover:file:bg-brand-600 cursor-pointer">
           </div>
           <button onclick="handleImageUpload()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 rounded-xl transition shadow-md">Publish to Gallery</button>
-          <p id="upload-success-msg" class="text-xs text-emerald-700 text-center hidden font-bold">Successfully published image to the gallery!</p>
+          <p id="upload-success-msg" class="text-xs text-emerald-700 text-center hidden font-bold">Successfully published image to gallery!</p>
         </div>
-      </div>
 
-      <!-- Existing Images Manager -->
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold text-stone-900">Manage Published Images</h2>
-        <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Dynamically populated -->
+        <div class="pt-4 border-t border-brand-400/50">
+          <h3 class="text-sm font-bold text-stone-900 mb-3">Manage Gallery Images</h3>
+          <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
         </div>
       </div>
 
@@ -154,8 +183,75 @@
       document.getElementById('admin-login-screen').classList.add('hidden');
       document.getElementById('admin-dashboard-screen').classList.remove('hidden');
       loadAdminGallery();
+      loadAdminSchematics();
     }
 
+    /* Schematic Logic */
+    function handleSchematicUpload() {
+      const title = document.getElementById('schem-title').value || 'Server Build';
+      const desc = document.getElementById('schem-desc').value || '';
+      const fileInput = document.getElementById('schem-file-input');
+      
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Data = e.target.result;
+          let schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
+          
+          const kbSize = (file.size / 1024).toFixed(1) + ' KB';
+          schematics.push({
+            id: Date.now(),
+            title: title,
+            description: desc,
+            fileName: file.name,
+            fileSize: kbSize,
+            fileData: base64Data
+          });
+          
+          localStorage.setItem('stonesmp_schematics', JSON.stringify(schematics));
+          
+          document.getElementById('schem-title').value = '';
+          document.getElementById('schem-desc').value = '';
+          document.getElementById('schem-file-input').value = '';
+          
+          document.getElementById('schem-success-msg').classList.remove('hidden');
+          setTimeout(() => document.getElementById('schem-success-msg').classList.add('hidden'), 3000);
+          
+          loadAdminSchematics();
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadAdminSchematics() {
+      const container = document.getElementById('admin-schem-list');
+      const schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
+      
+      if (schematics.length === 0) {
+        container.innerHTML = '<p class="text-xs text-stone-600 font-medium">No uploaded schematics yet.</p>';
+        return;
+      }
+      
+      container.innerHTML = schematics.map((item, index) => `
+        <div class="glass-card p-3 rounded-xl flex items-center justify-between gap-3">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-sm text-stone-900 truncate">${item.title}</h4>
+            <span class="text-[10px] text-stone-600 font-bold block">${item.fileName} (${item.fileSize})</span>
+          </div>
+          <button onclick="deleteSchematic(${index})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function deleteSchematic(index) {
+      let schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
+      schematics.splice(index, 1);
+      localStorage.setItem('stonesmp_schematics', JSON.stringify(schematics));
+      loadAdminSchematics();
+    }
+
+    /* Gallery Logic */
     function handleImageUpload() {
       const title = document.getElementById('upload-title').value || 'Server Snapshot';
       const fileInput = document.getElementById('upload-file-input');
@@ -208,7 +304,6 @@
       loadAdminGallery();
     }
 
-    // Auto-login check if already logged in this session
     if (sessionStorage.getItem('stonesmp_admin') === 'true') {
       showDashboard();
     }
