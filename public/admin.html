@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | StoneSMP</title>
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              100: '#fef9c3',
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+              700: '#a16207',
+            },
+            bee: {
+              chiffon: '#FFFACD',
+              card: '#FEF08A',
+              darkText: '#1C1917',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #FFFACD; }
+    .glass-card { background: rgba(254, 240, 138, 0.75); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.4); }
+  </style>
+</head>
+<body class="bg-bee-chiffon text-bee-darkText font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-bee-chiffon/90 border-b-2 border-brand-400">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 flex items-center justify-center shrink-0">
+          <img src="favicon.ico" onerror="this.onerror=null; this.src='logo.png'" alt="StoneSMP Icon" class="w-full h-full object-contain rounded-xl shadow-md">
+        </div>
+        <div>
+          <span class="font-pixel text-sm text-stone-900 tracking-wider block">STONE<span class="text-brand-600">SMP</span></span>
+          <span class="text-[10px] text-stone-700 font-bold tracking-widest uppercase block">Admin Portal</span>
+        </div>
+      </a>
+
+      <nav class="flex items-center gap-6 text-sm font-bold text-stone-800">
+        <a href="index.html" class="hover:text-brand-700 transition">← Back to Main Site</a>
+        <a href="gallery.html" class="hover:text-brand-700 transition">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto px-4 py-12 flex-1 w-full">
+    
+    <!-- Login Form Screen -->
+    <div id="admin-login-screen" class="max-w-md mx-auto glass-card p-8 rounded-3xl shadow-xl">
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 bg-brand-500 text-white rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-md">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h1 class="text-2xl font-extrabold text-stone-900">Admin Login</h1>
+        <p class="text-xs text-stone-700 mt-1 font-medium">Authentication required to manage server gallery.</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Passcode</label>
+          <input id="admin-passcode-input" type="password" maxlength="20" placeholder="••••••••" autocomplete="off" class="w-full bg-bee-chiffon border-2 border-brand-400 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-stone-900 focus:outline-none focus:border-brand-600">
+        </div>
+        <p id="admin-error-msg" class="text-xs text-red-600 text-center hidden font-bold">Incorrect passcode. Please try again.</p>
+        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm py-3 rounded-xl transition shadow-lg">Unlock Admin Panel</button>
+      </form>
+    </div>
+
+    <!-- Admin Dashboard Screen (Hidden by default) -->
+    <div id="admin-dashboard-screen" class="hidden space-y-8">
+      
+      <div class="flex items-center justify-between pb-6 border-b-2 border-brand-400">
+        <div>
+          <h1 class="text-3xl font-extrabold text-stone-900">Admin Dashboard</h1>
+          <p class="text-xs text-emerald-700 font-bold mt-1">● Authenticated Session Active</p>
+        </div>
+        <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">Log Out</button>
+      </div>
+
+      <!-- Upload Box -->
+      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-lg">
+        <h2 class="text-lg font-bold text-stone-900">Upload New Image to Gallery</h2>
+        
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-stone-700 uppercase mb-1">Image Title / Description</label>
+            <input id="upload-title" type="text" placeholder="e.g. Spawn Build Season 2" class="w-full bg-white border-2 border-brand-400 rounded-xl px-4 py-2.5 text-sm text-stone-900 focus:outline-none focus:border-brand-600">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 uppercase mb-1">Select Image File</label>
+            <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-stone-700 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-white hover:file:bg-brand-600 cursor-pointer">
+          </div>
+          <button onclick="handleImageUpload()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 rounded-xl transition shadow-md">Publish to Gallery</button>
+          <p id="upload-success-msg" class="text-xs text-emerald-700 text-center hidden font-bold">Successfully published image to the gallery!</p>
+        </div>
+      </div>
+
+      <!-- Existing Images Manager -->
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold text-stone-900">Manage Published Images</h2>
+        <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const inputEl = document.getElementById('admin-passcode-input');
+      const passcode = inputEl ? inputEl.value.trim() : '';
+      
+      if (passcode === '9294') {
+        sessionStorage.setItem('stonesmp_admin', 'true');
+        showDashboard();
+      } else {
+        document.getElementById('admin-error-msg').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('stonesmp_admin');
+      document.getElementById('admin-dashboard-screen').classList.add('hidden');
+      document.getElementById('admin-login-screen').classList.remove('hidden');
+      document.getElementById('admin-passcode-input').value = '';
+    }
+
+    function showDashboard() {
+      document.getElementById('admin-login-screen').classList.add('hidden');
+      document.getElementById('admin-dashboard-screen').classList.remove('hidden');
+      loadAdminGallery();
+    }
+
+    function handleImageUpload() {
+      const title = document.getElementById('upload-title').value || 'Server Snapshot';
+      const fileInput = document.getElementById('upload-file-input');
+      
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Image = e.target.result;
+          let gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
+          gallery.push({ id: Date.now(), title: title, image: base64Image });
+          localStorage.setItem('stonesmp_gallery', JSON.stringify(gallery));
+          
+          document.getElementById('upload-title').value = '';
+          document.getElementById('upload-file-input').value = '';
+          
+          document.getElementById('upload-success-msg').classList.remove('hidden');
+          setTimeout(() => document.getElementById('upload-success-msg').classList.add('hidden'), 3000);
+          
+          loadAdminGallery();
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    function loadAdminGallery() {
+      const container = document.getElementById('admin-gallery-list');
+      const gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
+      
+      if (gallery.length === 0) {
+        container.innerHTML = '<p class="text-xs text-stone-600 font-medium col-span-2">No custom uploaded images yet.</p>';
+        return;
+      }
+      
+      container.innerHTML = gallery.map((item, index) => `
+        <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
+          <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-xl border border-brand-400">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-sm text-stone-900 truncate">${item.title}</h4>
+            <span class="text-[10px] text-stone-600 block">Uploaded Image #${index + 1}</span>
+          </div>
+          <button onclick="deleteImage(${index})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function deleteImage(index) {
+      let gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
+      gallery.splice(index, 1);
+      localStorage.setItem('stonesmp_gallery', JSON.stringify(gallery));
+      loadAdminGallery();
+    }
+
+    // Auto-login check if already logged in this session
+    if (sessionStorage.getItem('stonesmp_admin') === 'true') {
+      showDashboard();
+    }
+  </script>
+</body>
+</html>
