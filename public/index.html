@@ -89,7 +89,6 @@
         <form onsubmit="handleAdminLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Passcode</label>
-            <!-- Password input with standard hidden dots and generic placeholder -->
             <input id="admin-passcode-input" type="password" maxlength="20" placeholder="••••••••" autocomplete="off" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-white focus:outline-none focus:border-brand-500">
           </div>
           <p id="admin-error-msg" class="text-xs text-red-400 text-center hidden font-medium">Incorrect passcode. Please try again.</p>
@@ -137,11 +136,12 @@
         </div>
       </a>
 
+      <!-- Cleaned Navigation Header: Emoji Removed from Gallery -->
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
         <a href="#info" class="hover:text-white transition">Server Info</a>
         <a href="#commands" class="hover:text-white transition">Commands</a>
         <a href="#rules" class="hover:text-white transition">Rules</a>
-        <a href="gallery.html" class="hover:text-white transition text-brand-400 font-semibold">Gallery 📸</a>
+        <a href="gallery.html" class="hover:text-white transition text-brand-400 font-semibold">Gallery</a>
         <a href="#vote" class="hover:text-white transition">Vote</a>
       </nav>
 
@@ -333,7 +333,7 @@
       const inputEl = document.getElementById('admin-passcode-input');
       const passcode = inputEl ? inputEl.value.trim() : '';
       
-      if (passcode === 'admin123') {
+      if (passcode === '9242') {
         document.getElementById('admin-login-step').classList.add('hidden');
         document.getElementById('admin-panel-step').classList.remove('hidden');
         document.getElementById('admin-error-msg').classList.add('hidden');
