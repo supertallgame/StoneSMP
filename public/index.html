@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | StoneSMP</title>
+  <title>StoneSMP | Season 2 Lifesteal</title>
   
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,17 +15,8 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            brand: {
-              400: '#facc15',
-              500: '#eab308',
-              600: '#ca8a04',
-            },
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            pixel: ['"Press Start 2P"', 'cursive'],
-          }
+          colors: { brand: { 400: '#facc15', 500: '#eab308', 600: '#ca8a04' } },
+          fontFamily: { sans: ['Inter', 'sans-serif'], pixel: ['"Press Start 2P"', 'cursive'] }
         }
       }
     }
@@ -34,6 +25,7 @@
   <style>
     body { background-color: #09090b; }
     .glass-card { background: rgba(24, 24, 27, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.5); }
+    .bg-grid-pattern { background-image: radial-gradient(rgba(234, 179, 8, 0.15) 1.5px, transparent 1.5px); background-size: 24px 24px; }
   </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col">
@@ -42,264 +34,78 @@
   <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 flex items-center justify-center shrink-0">
+        <div class="w-12 h-12 flex items-center justify-center shrink-0">
           <img src="favicon.ico" onerror="this.onerror=null; this.src='logo.png'" alt="StoneSMP Icon" class="w-full h-full object-contain rounded-xl shadow-md">
         </div>
         <div>
-          <span class="font-pixel text-sm text-zinc-100 tracking-wider block">STONE<span class="text-brand-400">SMP</span></span>
-          <span class="text-[10px] text-zinc-400 font-bold tracking-widest uppercase block">Admin Portal</span>
+          <span class="font-pixel text-sm sm:text-base text-zinc-100 tracking-wider block">STONE<span class="text-brand-400">SMP</span></span>
+          <span class="text-[10px] text-zinc-400 font-bold tracking-widest uppercase block">Season 2 • Lifesteal</span>
         </div>
       </a>
 
-      <nav class="flex items-center gap-6 text-sm font-bold text-zinc-300">
-        <a href="index.html" class="hover:text-brand-400 transition">← Main Site</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-zinc-300">
+        <a href="#info" class="hover:text-brand-400 transition">Server Info</a>
         <a href="gallery.html" class="hover:text-brand-400 transition">Gallery</a>
         <a href="schematics.html" class="hover:text-brand-400 transition">Schematics</a>
       </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="https://discord.gg/mt4ny7vZB" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Discord</a>
+        <a href="admin.html" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Admin Portal</a>
+      </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-4xl mx-auto px-4 py-12 flex-1 w-full">
-    
-    <!-- Login Screen -->
-    <div id="admin-login-screen" class="max-w-md mx-auto glass-card p-8 rounded-3xl shadow-xl">
-      <div class="text-center mb-6">
-        <div class="w-14 h-14 bg-brand-500 text-zinc-950 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-md font-bold">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        </div>
-        <h1 class="text-2xl font-extrabold text-white">Admin Login</h1>
-        <p class="text-xs text-zinc-400 mt-1 font-medium">Authentication required to manage server files.</p>
+  <!-- Hero Section -->
+  <section class="relative py-24 sm:py-32 bg-grid-pattern border-b-2 border-brand-500/30 text-center">
+    <div class="max-w-4xl mx-auto px-4 space-y-6">
+      <span class="bg-brand-500/10 border-2 border-brand-500 text-brand-400 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest inline-block shadow">Season 2 Now Live</span>
+      <h1 class="font-pixel text-4xl sm:text-7xl text-white tracking-tight leading-tight">WELCOME TO <span class="text-brand-400 block sm:inline">STONESMP</span></h1>
+      <p class="text-base sm:text-xl text-zinc-300 max-w-2xl mx-auto font-medium">The ultimate hardcore Minecraft Lifesteal experience. Fight, steal hearts, build empires, and conquer your rivals.</p>
+      
+      <div class="pt-4 flex items-center justify-center">
+        <button onclick="navigator.clipboard.writeText('play.stonesmp.xyz'); alert('Server IP copied: play.stonesmp.xyz');" class="bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm px-8 py-4 rounded-2xl transition shadow-xl flex items-center gap-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+          Copy IP: play.stonesmp.xyz
+        </button>
       </div>
+    </div>
+  </section>
 
-      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Passcode</label>
-          <input id="admin-passcode-input" type="password" maxlength="20" placeholder="••••••••" autocomplete="off" class="w-full bg-zinc-900 border-2 border-brand-500/50 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-white focus:outline-none focus:border-brand-400">
-        </div>
-        <p id="admin-error-msg" class="text-xs text-red-400 text-center hidden font-bold">Incorrect passcode. Please try again.</p>
-        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3 rounded-xl transition shadow-lg">Unlock Admin Panel</button>
-      </form>
+  <!-- Server Info -->
+  <section id="info" class="py-20 max-w-6xl mx-auto px-4 sm:px-6 w-full">
+    <div class="text-center mb-16">
+      <h2 class="font-pixel text-2xl sm:text-4xl text-white mb-3">SERVER <span class="text-brand-400">FEATURES</span></h2>
+      <p class="text-sm text-zinc-400 font-medium">Why you should join StoneSMP today.</p>
     </div>
 
-    <!-- Admin Dashboard Screen -->
-    <div id="admin-dashboard-screen" class="hidden space-y-10">
-      
-      <div class="flex items-center justify-between pb-6 border-b-2 border-brand-500/30">
-        <div>
-          <h1 class="text-3xl font-extrabold text-white">Admin Dashboard</h1>
-          <p class="text-xs text-emerald-400 font-bold mt-1">● Authenticated Session Active</p>
-        </div>
-        <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">Log Out</button>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="glass-card p-8 rounded-3xl space-y-4 shadow-xl">
+        <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl flex items-center justify-center font-bold text-lg shadow">❤️</div>
+        <h3 class="text-lg font-bold text-white">Lifesteal Mechanics</h3>
+        <p class="text-xs text-zinc-300 font-medium leading-relaxed">Lose a heart when you die, gain one when you eliminate another player.</p>
       </div>
 
-      <!-- Section 1: Schematics Upload -->
-      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-xl">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>⚙️</span> Upload New Schematic File
-        </h2>
-        
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Schematic Title</label>
-            <input id="schem-title" type="text" placeholder="e.g. Spawn Castle V2" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Description (Optional)</label>
-            <input id="schem-desc" type="text" placeholder="e.g. 50x50 PVP Arena Schematic" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Select .schem or .schematic file</label>
-            <input id="schem-file-input" type="file" accept=".schem,.schematic,.litematic" class="w-full text-xs text-zinc-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-zinc-950 hover:file:bg-brand-400 cursor-pointer">
-          </div>
-          <button onclick="handleSchematicUpload()" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3 rounded-xl transition shadow-md">Publish Schematic</button>
-          <p id="schem-success-msg" class="text-xs text-emerald-400 text-center hidden font-bold">Successfully uploaded schematic!</p>
-        </div>
-
-        <div class="pt-4 border-t border-brand-500/30">
-          <h3 class="text-sm font-bold text-white mb-3">Manage Schematics</h3>
-          <div id="admin-schem-list" class="space-y-2"></div>
-        </div>
+      <div class="glass-card p-8 rounded-3xl space-y-4 shadow-xl">
+        <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl flex items-center justify-center font-bold text-lg shadow">🛡️</div>
+        <h3 class="text-lg font-bold text-white">Active Community</h3>
+        <p class="text-xs text-zinc-300 font-medium leading-relaxed">Join active clans, participate in regular events, and trade items safely.</p>
       </div>
 
-      <!-- Section 2: Gallery Upload -->
-      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-xl">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>📸</span> Upload Gallery Image
-        </h2>
-        
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Image Title / Description</label>
-            <input id="upload-title" type="text" placeholder="e.g. Spawn Build Season 2" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Select Image File</label>
-            <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-zinc-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-zinc-950 hover:file:bg-brand-400 cursor-pointer">
-          </div>
-          <button onclick="handleImageUpload()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm py-3 rounded-xl transition shadow-md">Publish to Gallery</button>
-          <p id="upload-success-msg" class="text-xs text-emerald-400 text-center hidden font-bold">Successfully published image to gallery!</p>
-        </div>
-
-        <div class="pt-4 border-t border-brand-500/30">
-          <h3 class="text-sm font-bold text-white mb-3">Manage Gallery Images</h3>
-          <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-        </div>
+      <div class="glass-card p-8 rounded-3xl space-y-4 shadow-xl">
+        <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl flex items-center justify-center font-bold text-lg shadow">⚡</div>
+        <h3 class="text-lg font-bold text-white">Lag-Free Performance</h3>
+        <p class="text-xs text-zinc-300 font-medium leading-relaxed">Optimized 20 TPS gameplay with dedicated high-performance hardware.</p>
       </div>
-
     </div>
+  </section>
 
-  </main>
+  <footer class="mt-auto py-10 bg-zinc-900 border-t-2 border-brand-500/30 text-zinc-400 text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <span class="font-pixel text-xs text-white">STONE<span class="text-brand-400">SMP</span> © 2026</span>
+      <a href="admin.html" class="hover:text-white transition font-bold">Admin Portal</a>
+    </div>
+  </footer>
 
-  <script>
-    function handleAdminLogin(event) {
-      event.preventDefault();
-      const inputEl = document.getElementById('admin-passcode-input');
-      const passcode = inputEl ? inputEl.value.trim() : '';
-      
-      if (passcode === '9294') {
-        sessionStorage.setItem('stonesmp_admin', 'true');
-        showDashboard();
-      } else {
-        document.getElementById('admin-error-msg').classList.remove('hidden');
-      }
-    }
-
-    function logoutAdmin() {
-      sessionStorage.removeItem('stonesmp_admin');
-      document.getElementById('admin-dashboard-screen').classList.add('hidden');
-      document.getElementById('admin-login-screen').classList.remove('hidden');
-      document.getElementById('admin-passcode-input').value = '';
-    }
-
-    function showDashboard() {
-      document.getElementById('admin-login-screen').classList.add('hidden');
-      document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-      loadAdminGallery();
-      loadAdminSchematics();
-    }
-
-    /* Schematic Logic */
-    function handleSchematicUpload() {
-      const title = document.getElementById('schem-title').value || 'Server Build';
-      const desc = document.getElementById('schem-desc').value || '';
-      const fileInput = document.getElementById('schem-file-input');
-      
-      if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const base64Data = e.target.result;
-          let schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
-          
-          const kbSize = (file.size / 1024).toFixed(1) + ' KB';
-          schematics.push({
-            id: Date.now(),
-            title: title,
-            description: desc,
-            fileName: file.name,
-            fileSize: kbSize,
-            fileData: base64Data
-          });
-          
-          localStorage.setItem('stonesmp_schematics', JSON.stringify(schematics));
-          
-          document.getElementById('schem-title').value = '';
-          document.getElementById('schem-desc').value = '';
-          document.getElementById('schem-file-input').value = '';
-          
-          document.getElementById('schem-success-msg').classList.remove('hidden');
-          setTimeout(() => document.getElementById('schem-success-msg').classList.add('hidden'), 3000);
-          
-          loadAdminSchematics();
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function loadAdminSchematics() {
-      const container = document.getElementById('admin-schem-list');
-      const schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
-      
-      if (schematics.length === 0) {
-        container.innerHTML = '<p class="text-xs text-zinc-500 font-medium">No uploaded schematics yet.</p>';
-        return;
-      }
-      
-      container.innerHTML = schematics.map((item, index) => `
-        <div class="glass-card p-3 rounded-xl flex items-center justify-between gap-3 bg-zinc-900/90">
-          <div class="flex-1 min-w-0">
-            <h4 class="font-bold text-sm text-white truncate">${item.title}</h4>
-            <span class="text-[10px] text-zinc-400 font-bold block">${item.fileName} (${item.fileSize})</span>
-          </div>
-          <button onclick="deleteSchematic(${index})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
-        </div>
-      `).join('');
-    }
-
-    function deleteSchematic(index) {
-      let schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
-      schematics.splice(index, 1);
-      localStorage.setItem('stonesmp_schematics', JSON.stringify(schematics));
-      loadAdminSchematics();
-    }
-
-    /* Gallery Logic */
-    function handleImageUpload() {
-      const title = document.getElementById('upload-title').value || 'Server Snapshot';
-      const fileInput = document.getElementById('upload-file-input');
-      
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const base64Image = e.target.result;
-          let gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
-          gallery.push({ id: Date.now(), title: title, image: base64Image });
-          localStorage.setItem('stonesmp_gallery', JSON.stringify(gallery));
-          
-          document.getElementById('upload-title').value = '';
-          document.getElementById('upload-file-input').value = '';
-          
-          document.getElementById('upload-success-msg').classList.remove('hidden');
-          setTimeout(() => document.getElementById('upload-success-msg').classList.add('hidden'), 3000);
-          
-          loadAdminGallery();
-        }
-        reader.readAsDataURL(fileInput.files[0]);
-      }
-    }
-
-    function loadAdminGallery() {
-      const container = document.getElementById('admin-gallery-list');
-      const gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
-      
-      if (gallery.length === 0) {
-        container.innerHTML = '<p class="text-xs text-zinc-500 font-medium col-span-2">No custom uploaded images yet.</p>';
-        return;
-      }
-      
-      container.innerHTML = gallery.map((item, index) => `
-        <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3 bg-zinc-900/90">
-          <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-xl border border-brand-500/50">
-          <div class="flex-1 min-w-0">
-            <h4 class="font-bold text-sm text-white truncate">${item.title}</h4>
-            <span class="text-[10px] text-zinc-400 block">Uploaded Image #${index + 1}</span>
-          </div>
-          <button onclick="deleteImage(${index})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
-        </div>
-      `).join('');
-    }
-
-    function deleteImage(index) {
-      let gallery = JSON.parse(localStorage.getItem('stonesmp_gallery') || '[]');
-      gallery.splice(index, 1);
-      localStorage.setItem('stonesmp_gallery', JSON.stringify(gallery));
-      loadAdminGallery();
-    }
-
-    if (sessionStorage.getItem('stonesmp_admin') === 'true') {
-      showDashboard();
-    }
-  </script>
 </body>
 </html>
