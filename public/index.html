@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -67,11 +68,11 @@
       <h1 class="font-pixel text-4xl sm:text-6xl text-white tracking-tight leading-tight">WELCOME TO <span class="text-brand-400 block sm:inline">STONESMP</span></h1>
       <p class="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto font-medium">The ultimate hardcore Minecraft Lifesteal experience. Eliminate enemies, claim their hearts, forge clans, and dominate the world.</p>
       
-      <!-- IP Box -->
+      <!-- IP Copy Box -->
       <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button onclick="navigator.clipboard.writeText('play.stonesmp.xyz'); alert('Server IP copied: play.stonesmp.xyz');" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm px-8 py-4 rounded-2xl transition shadow-xl flex items-center justify-center gap-3">
+        <button onclick="navigator.clipboard.writeText('stonesmp.xyz'); alert('Server IP copied: stonesmp.xyz');" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm px-8 py-4 rounded-2xl transition shadow-xl flex items-center justify-center gap-3">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-          Copy IP: play.stonesmp.xyz
+          Copy IP: stonesmp.xyz
         </button>
       </div>
     </div>
@@ -110,25 +111,17 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
         <h2 class="font-pixel text-2xl sm:text-4xl text-white mb-3">KEY <span class="text-brand-400">COMMANDS</span></h2>
-        <p class="text-sm text-zinc-400 font-medium">Essential in-game commands to help you get started.</p>
+        <p class="text-sm text-zinc-400 font-medium">Essential in-game commands to help you report issues and check items.</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="glass-card p-5 rounded-2xl">
-          <code class="text-brand-400 font-mono text-sm font-bold block mb-1">/withdraw [amount]</code>
-          <p class="text-xs text-zinc-300">Convert your extra hearts into physical items.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div class="glass-card p-6 rounded-2xl">
+          <code class="text-brand-400 font-mono text-base font-bold block mb-2">/report [player] [reason]</code>
+          <p class="text-xs text-zinc-300">Submit a direct report to online staff regarding rule breakers or exploiters.</p>
         </div>
-        <div class="glass-card p-5 rounded-2xl">
-          <code class="text-brand-400 font-mono text-sm font-bold block mb-1">/clan create [name]</code>
-          <p class="text-xs text-zinc-300">Create a clan and invite your teammates.</p>
-        </div>
-        <div class="glass-card p-5 rounded-2xl">
-          <code class="text-brand-400 font-mono text-sm font-bold block mb-1">/tpa [player]</code>
-          <p class="text-xs text-zinc-300">Request teleportation to another player.</p>
-        </div>
-        <div class="glass-card p-5 rounded-2xl">
-          <code class="text-brand-400 font-mono text-sm font-bold block mb-1">/spawn</code>
-          <p class="text-xs text-zinc-300">Teleport safely back to the central spawn hub.</p>
+        <div class="glass-card p-6 rounded-2xl">
+          <code class="text-brand-400 font-mono text-base font-bold block mb-2">/maceinfo</code>
+          <p class="text-xs text-zinc-300">View specialized stats, mechanics, and damage multipliers for mace PvP.</p>
         </div>
       </div>
     </div>
@@ -176,14 +169,39 @@
     </div>
   </section>
 
-  <!-- Voting Section -->
-  <section id="vote" class="py-16 bg-zinc-900/60 border-t border-brand-500/30">
-    <div class="max-w-4xl mx-auto px-4 text-center space-y-4">
-      <h2 class="font-pixel text-2xl sm:text-3xl text-white">VOTE FOR <span class="text-brand-400">REWARDS</span></h2>
-      <p class="text-xs sm:text-sm text-zinc-300 max-w-lg mx-auto">Support StoneSMP on server lists to receive in-game reward keys, bonus hearts, and claim blocks.</p>
-      <div class="pt-2 flex flex-wrap justify-center gap-4">
-        <a href="#" class="bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">Vote Site #1</a>
-        <a href="#" class="bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-6 py-3 rounded-xl transition shadow-md">Vote Site #2</a>
+  <!-- Voting Section (3 Distinct Cards) -->
+  <section id="vote" class="py-20 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-16">
+      <h2 class="font-pixel text-2xl sm:text-4xl text-white mb-3">VOTE FOR <span class="text-brand-400">REWARDS</span></h2>
+      <p class="text-sm text-zinc-400 font-medium">Vote daily on all 3 links to claim free keys, hearts, and claim blocks.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="glass-card p-8 rounded-3xl space-y-6 text-center shadow-xl flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl mx-auto flex items-center justify-center font-bold text-xl shadow mb-4">⭐</div>
+          <h3 class="text-lg font-bold text-white mb-2">Vote Site #1</h3>
+          <p class="text-xs text-zinc-300">Earn 1x Vote Key and bonus rewards instantly upon voting.</p>
+        </div>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="block w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3.5 rounded-xl transition shadow-md">Vote Link 1</a>
+      </div>
+
+      <div class="glass-card p-8 rounded-3xl space-y-6 text-center shadow-xl flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl mx-auto flex items-center justify-center font-bold text-xl shadow mb-4">⭐</div>
+          <h3 class="text-lg font-bold text-white mb-2">Vote Site #2</h3>
+          <p class="text-xs text-zinc-300">Help us rank higher and receive rare in-game items.</p>
+        </div>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="block w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3.5 rounded-xl transition shadow-md">Vote Link 2</a>
+      </div>
+
+      <div class="glass-card p-8 rounded-3xl space-y-6 text-center shadow-xl flex flex-col justify-between">
+        <div>
+          <div class="w-12 h-12 bg-brand-500 text-zinc-950 rounded-2xl mx-auto flex items-center justify-center font-bold text-xl shadow mb-4">⭐</div>
+          <h3 class="text-lg font-bold text-white mb-2">Vote Site #3</h3>
+          <p class="text-xs text-zinc-300">Collect bonus claim blocks and extra hearts for your stash.</p>
+        </div>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="block w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3.5 rounded-xl transition shadow-md">Vote Link 3</a>
       </div>
     </div>
   </section>
