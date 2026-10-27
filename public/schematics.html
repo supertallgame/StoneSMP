@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,138 +15,113 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            brand: {
-              100: '#fef9c3',
-              200: '#fef08a',
-              400: '#facc15',
-              500: '#eab308',
-              600: '#ca8a04',
-              700: '#a16207',
-            },
-            bee: {
-              chiffon: '#FFFACD',
-              card: '#FEF08A',
-              darkText: '#1C1917',
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            pixel: ['"Press Start 2P"', 'cursive'],
-          }
+          colors: { brand: { 400: '#facc15', 500: '#eab308', 600: '#ca8a04' } },
+          fontFamily: { sans: ['Inter', 'sans-serif'], pixel: ['"Press Start 2P"', 'cursive'] }
         }
       }
     }
   </script>
 
   <style>
-    body { background-color: #FFFACD; }
-    .glass-card { background: rgba(254, 240, 138, 0.75); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.4); }
-    .glass-card:hover { border-color: rgba(161, 98, 7, 0.8); }
-    .bg-grid-pattern { background-image: radial-gradient(rgba(161, 98, 7, 0.2) 1.5px, transparent 1.5px); background-size: 24px 24px; }
+    body { background-color: #09090b; }
+    .glass-card { background: rgba(24, 24, 27, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.5); transition: all 0.3s ease; }
+    .glass-card:hover { border-color: rgba(234, 179, 8, 1); transform: translateY(-2px); }
+    .bg-grid-pattern { background-image: radial-gradient(rgba(234, 179, 8, 0.15) 1.5px, transparent 1.5px); background-size: 24px 24px; }
   </style>
 </head>
-<body class="bg-bee-chiffon text-bee-darkText font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-bee-chiffon/90 border-b-2 border-brand-400">
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
         <div class="w-12 h-12 flex items-center justify-center shrink-0">
           <img src="favicon.ico" onerror="this.onerror=null; this.src='logo.png'" alt="StoneSMP Icon" class="w-full h-full object-contain rounded-xl shadow-md">
         </div>
         <div>
-          <span class="font-pixel text-sm sm:text-base text-stone-900 tracking-wider block">STONE<span class="text-brand-600">SMP</span></span>
-          <span class="text-[10px] text-stone-700 font-bold tracking-widest uppercase block">Season 2 • Lifesteal</span>
+          <span class="font-pixel text-sm sm:text-base text-zinc-100 tracking-wider block">STONE<span class="text-brand-400">SMP</span></span>
+          <span class="text-[10px] text-zinc-400 font-bold tracking-widest uppercase block">Season 2 • Lifesteal</span>
         </div>
       </a>
 
-      <!-- Consistent Navigation Across All Pages -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-stone-800">
-        <a href="index.html#info" class="hover:text-brand-700 transition">Server Info</a>
-        <a href="index.html#commands" class="hover:text-brand-700 transition">Commands</a>
-        <a href="index.html#rules" class="hover:text-brand-700 transition">Rules</a>
-        <a href="gallery.html" class="hover:text-brand-700 transition font-extrabold">Gallery</a>
-        <a href="schematics.html" class="hover:text-brand-700 transition text-brand-700 font-extrabold">Schematics</a>
-        <a href="index.html#vote" class="hover:text-brand-700 transition">Vote</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-zinc-300">
+        <a href="index.html#info" class="hover:text-brand-400 transition">Server Info</a>
+        <a href="index.html#commands" class="hover:text-brand-400 transition">Commands</a>
+        <a href="index.html#rules" class="hover:text-brand-400 transition">Rules</a>
+        <a href="gallery.html" class="hover:text-brand-400 transition">Gallery</a>
+        <a href="schematics.html" class="hover:text-brand-400 transition text-brand-400">Schematics</a>
+        <a href="index.html#vote" class="hover:text-brand-400 transition">Vote</a>
       </nav>
 
       <div class="flex items-center gap-3">
-        <a href="https://discord.gg/mt4ny7vZB" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">
-          Discord (146)
-        </a>
-        <a href="admin.html" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">
-          Admin Portal
-        </a>
+        <a href="https://discord.gg/mt4ny7vZB" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Discord (146)</a>
+        <a href="admin.html" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Admin Portal</a>
       </div>
     </div>
   </header>
 
   <!-- Hero Banner -->
-  <section class="py-12 bg-grid-pattern border-b-2 border-brand-400">
+  <section class="py-12 bg-grid-pattern border-b-2 border-brand-500/30">
     <div class="max-w-5xl mx-auto px-4 text-center">
-      <h1 class="font-pixel text-3xl sm:text-5xl text-stone-900 tracking-tight mb-4">
-        SERVER <span class="text-brand-600">SCHEMATICS</span>
-      </h1>
-      <p class="text-sm sm:text-base text-stone-800 font-medium max-w-xl mx-auto">
-        Download official WorldEdit / Litematica build schematics for StoneSMP Season 2.
-      </p>
+      <h1 class="font-pixel text-3xl sm:text-5xl text-white tracking-tight mb-4">SERVER <span class="text-brand-400">SCHEMATICS</span></h1>
+      <p class="text-sm sm:text-base text-zinc-300 font-medium max-w-xl mx-auto">Download official WorldEdit / Litematica build schematics for StoneSMP Season 2.</p>
     </div>
   </section>
 
   <!-- Schematics Grid -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 flex-1 w-full">
-    <div id="schematic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Dynamically rendered -->
-    </div>
+    <div id="schematic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto py-8 bg-brand-100 border-t-2 border-brand-400 text-stone-700 text-xs">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <span class="font-pixel text-xs text-stone-900">STONE<span class="text-brand-600">SMP</span></span>
-      <a href="admin.html" class="text-[10px] text-stone-700 hover:text-stone-950 uppercase tracking-widest font-bold">Admin Portal</a>
+  <footer class="mt-auto py-10 bg-zinc-900 border-t-2 border-brand-500/30 text-zinc-400 text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <span class="font-pixel text-xs text-white">STONE<span class="text-brand-400">SMP</span></span>
+      <a href="admin.html" class="text-[10px] text-zinc-400 hover:text-white uppercase tracking-widest font-bold transition">Admin Panel</a>
     </div>
   </footer>
 
   <script>
-    function renderSchematics() {
+    async function fetchSchematics() {
       const grid = document.getElementById('schematic-grid');
-      const schematics = JSON.parse(localStorage.getItem('stonesmp_schematics') || '[]');
-
-      if (schematics.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-12 glass-card rounded-3xl p-8">
-            <svg class="w-12 h-12 text-brand-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-            <h3 class="font-bold text-lg text-stone-900 mb-1">No Schematics Available</h3>
-            <p class="text-xs text-stone-700 font-medium">Check back soon! Admins will upload server build schematics here.</p>
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = schematics.map((item) => `
-        <div class="glass-card p-6 rounded-2xl flex flex-col justify-between border-2 border-brand-400 hover:border-brand-600 transition shadow-md">
-          <div class="space-y-3 mb-6">
-            <div class="flex items-center justify-between">
-              <span class="bg-brand-500 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md shadow-sm">
-                .${item.fileName.split('.').pop()}
-              </span>
-              <span class="text-[10px] font-bold text-stone-600">${item.fileSize || 'Schematic'}</span>
+      try {
+        const res = await fetch('/api/content');
+        const data = await res.json();
+        
+        if (!data.schematics || data.schematics.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full text-center py-16 glass-card rounded-3xl p-8">
+              <svg class="w-12 h-12 text-brand-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              <h3 class="font-bold text-lg text-white mb-1">No Schematics Available</h3>
+              <p class="text-xs text-zinc-400 font-medium">Check back soon! Admins will upload server build schematics here.</p>
             </div>
-            <h3 class="font-bold text-stone-900 text-lg leading-snug">${item.title}</h3>
-            <p class="text-xs text-stone-700 font-medium">${item.description || 'Official StoneSMP schematic build file.'}</p>
+          `;
+          return;
+        }
+
+        grid.innerHTML = data.schematics.map(item => `
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between shadow-xl">
+            <div class="space-y-3 mb-6">
+              <div class="flex items-center justify-between">
+                <span class="bg-brand-500 text-zinc-950 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md shadow-sm">
+                  .${item.fileName.split('.').pop()}
+                </span>
+                <span class="text-[10px] font-bold text-zinc-400">${item.fileSize || 'Schematic'}</span>
+              </div>
+              <h3 class="font-bold text-white text-lg leading-snug">${item.title}</h3>
+              <p class="text-xs text-zinc-400 font-medium">${item.description || 'Official StoneSMP schematic build file.'}</p>
+            </div>
+            
+            <a href="${item.fileData}" download="${item.fileName}" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              Download Schematic
+            </a>
           </div>
-          
-          <a href="${item.fileData}" download="${item.fileName}" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download Schematic
-          </a>
-        </div>
-      `).join('');
+        `).join('');
+      } catch(e) { console.error(e); }
     }
 
-    renderSchematics();
+    fetchSchematics();
   </script>
 </body>
 </html>
