@@ -1,9 +1,113 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoneSMP | Admin Portal</title>
+  
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Supabase JS CDN FIRST before any custom scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { 400: '#facc15', 500: '#eab308', 600: '#ca8a04' } },
+          fontFamily: { sans: ['Inter', 'sans-serif'], pixel: ['"Press Start 2P"', 'cursive'] }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #09090b; }
+    .glass-card { background: rgba(24, 24, 27, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.5); }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 flex items-center justify-center shrink-0">
+          <img src="favicon.ico" onerror="this.onerror=null; this.src='logo.png'" alt="StoneSMP Icon" class="w-full h-full object-contain rounded-xl shadow-md">
+        </div>
+        <div>
+          <span class="font-pixel text-sm text-zinc-100 tracking-wider block">STONE<span class="text-brand-400">SMP</span></span>
+          <span class="text-[9px] text-zinc-400 font-bold tracking-widest uppercase block">Admin Portal</span>
+        </div>
+      </a>
+
+      <a href="index.html" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold px-4 py-2 rounded-xl transition">← Back to Site</a>
+    </div>
+  </header>
+
+  <!-- Login Section -->
+  <main id="login-section" class="flex-1 flex items-center justify-center p-4">
+    <div class="glass-card p-8 sm:p-10 rounded-3xl max-w-md w-full space-y-6 shadow-2xl">
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 bg-brand-500/10 border-2 border-brand-500 text-brand-400 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold shadow-md">🔒</div>
+        <h1 class="font-pixel text-xl text-white pt-2">ADMIN LOGIN</h1>
+        <p class="text-xs text-zinc-400 font-medium">Enter your secure passcode to access management tools.</p>
+      </div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Passcode</label>
+          <input type="password" id="passcode-input" placeholder="••••••••" required class="w-full bg-zinc-900 border-2 border-zinc-700 focus:border-brand-500 text-white text-sm px-4 py-3 rounded-xl outline-none transition">
+        </div>
+
+        <div id="error-msg" class="hidden text-red-400 text-xs font-bold text-center bg-red-950/50 border border-red-800 p-2.5 rounded-xl"></div>
+
+        <button type="submit" id="login-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+          Verify Passcode
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Admin Dashboard -->
+  <div id="dashboard-section" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-8">
+    <div class="glass-card p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h2 class="font-pixel text-xl text-white">ADMIN <span class="text-brand-400">DASHBOARD</span></h2>
+        <p class="text-xs text-zinc-400">Authenticated via Supabase Backend.</p>
+      </div>
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">Logout</button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass-card p-6 rounded-3xl space-y-4">
+        <h3 class="font-bold text-white text-base">Gallery Asset Uploader</h3>
+        <p class="text-xs text-zinc-400">Upload new images directly to Supabase storage bucket (`gallery`).</p>
+        <a href="gallery.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Gallery</a>
+      </div>
+
+      <div class="glass-card p-6 rounded-3xl space-y-4">
+        <h3 class="font-bold text-white text-base">Schematics Manager</h3>
+        <p class="text-xs text-zinc-400">Upload and list schematic files in Supabase storage bucket (`schematics`).</p>
+        <a href="schematics.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Schematics</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-6 bg-zinc-950 border-t border-brand-500/20 text-center text-zinc-500 text-xs">
+    STONE<span class="text-brand-400">SMP</span> Admin Portal
+  </footer>
+
+  <script>
     const SUPABASE_URL = 'https://pmyxbrlpgocibwsintoq.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3c2ludG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNDM2OTMsImV4cCI6MjA1MzcxOTY5M30.7_3P8iQ_M3f50S6zD0e8dJ-n-G9N6W3X3b9a5C9D0-E';
     
-    // Explicitly disabling storage persistence to bypass browser tracking blocks
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    // Configured to prevent storage tracking issues while initializing cleanly
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: {
         persistSession: false,
         autoRefreshToken: false,
@@ -58,3 +162,6 @@
       window.location.reload();
     }
   </script>
+
+</body>
+</html>
