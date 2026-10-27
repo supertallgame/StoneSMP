@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -70,7 +71,9 @@
 
   <!-- Schematics Grid -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 flex-1 w-full">
-    <div id="schematic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="schematic-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-16 text-zinc-500 font-medium text-sm">Loading cloud schematics...</div>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -82,43 +85,41 @@
   </footer>
 
   <script>
+    const SUPABASE_URL = 'https://pmyxbrlpgocibwintoq.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_eLFYtTolpVYCTcJc1z8mfw_RwJLHi-y';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     async function fetchSchematics() {
       const grid = document.getElementById('schematic-grid');
-      try {
-        const res = await fetch('/api/content');
-        const data = await res.json();
-        
-        if (!data.schematics || data.schematics.length === 0) {
-          grid.innerHTML = `
-            <div class="col-span-full text-center py-16 glass-card rounded-3xl p-8">
-              <svg class="w-12 h-12 text-brand-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-              <h3 class="font-bold text-lg text-white mb-1">No Schematics Available</h3>
-              <p class="text-xs text-zinc-400 font-medium">Check back soon! Admins will upload server build schematics here.</p>
-            </div>
-          `;
-          return;
-        }
+      const { data, error } = await supabaseClient.from('files').select('*').eq('type', 'schematic').order('id', { ascending: false });
 
-        grid.innerHTML = data.schematics.map(item => `
-          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between shadow-xl">
-            <div class="space-y-3 mb-6">
-              <div class="flex items-center justify-between">
-                <span class="bg-brand-500 text-zinc-950 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md shadow-sm">
-                  .${item.fileName.split('.').pop()}
-                </span>
-                <span class="text-[10px] font-bold text-zinc-400">${item.fileSize || 'Schematic'}</span>
-              </div>
-              <h3 class="font-bold text-white text-lg leading-snug">${item.title}</h3>
-              <p class="text-xs text-zinc-400 font-medium">${item.description || 'Official StoneSMP schematic build file.'}</p>
-            </div>
-            
-            <a href="${item.fileData}" download="${item.fileName}" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              Download Schematic
-            </a>
+      if (error || !data || data.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-16 glass-card rounded-3xl p-8">
+            <svg class="w-12 h-12 text-brand-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <h3 class="font-bold text-lg text-white mb-1">No Schematics Available</h3>
+            <p class="text-xs text-zinc-400 font-medium">Check back soon! Admins will upload server build schematics here.</p>
           </div>
-        `).join('');
-      } catch(e) { console.error(e); }
+        `;
+        return;
+      }
+
+      grid.innerHTML = data.map(item => `
+        <div class="glass-card p-6 rounded-2xl flex flex-col justify-between shadow-xl">
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center justify-between">
+              <span class="bg-brand-500 text-zinc-950 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md shadow-sm">SCHEM</span>
+              <span class="text-[10px] font-bold text-zinc-400">${item.file_size || 'Cloud File'}</span>
+            </div>
+            <h3 class="font-bold text-white text-lg leading-snug">${item.title}</h3>
+          </div>
+          
+          <a href="${item.file_url}" download class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download Schematic
+          </a>
+        </div>
+      `).join('');
     }
 
     fetchSchematics();
