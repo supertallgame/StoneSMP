@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | StoneSMP</title>
+  <title>StoneSMP | Admin Portal</title>
   
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -27,7 +28,7 @@
     .glass-card { background: rgba(24, 24, 27, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.5); }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
   <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
@@ -38,220 +39,123 @@
         </div>
         <div>
           <span class="font-pixel text-sm text-zinc-100 tracking-wider block">STONE<span class="text-brand-400">SMP</span></span>
-          <span class="text-[10px] text-zinc-400 font-bold tracking-widest uppercase block">Admin Portal</span>
+          <span class="text-[9px] text-zinc-400 font-bold tracking-widest uppercase block">Admin Portal</span>
         </div>
       </a>
 
-      <nav class="flex items-center gap-6 text-sm font-bold text-zinc-300">
-        <a href="index.html" class="hover:text-brand-400 transition">← Main Site</a>
-        <a href="gallery.html" class="hover:text-brand-400 transition">Gallery</a>
-        <a href="schematics.html" class="hover:text-brand-400 transition">Schematics</a>
-      </nav>
+      <a href="index.html" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold px-4 py-2 rounded-xl transition">← Back to Site</a>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-4xl mx-auto px-4 py-12 flex-1 w-full">
-    
-    <!-- Login Screen -->
-    <div id="admin-login-screen" class="max-w-md mx-auto glass-card p-8 rounded-3xl shadow-xl">
-      <div class="text-center mb-6">
-        <div class="w-14 h-14 bg-brand-500 text-zinc-950 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-md font-bold">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        </div>
-        <h1 class="text-2xl font-extrabold text-white">Admin Login</h1>
-        <p class="text-xs text-zinc-400 mt-1 font-medium">Authentication required to manage server files.</p>
+  <!-- Login Section -->
+  <main id="login-section" class="flex-1 flex items-center justify-center p-4">
+    <div class="glass-card p-8 sm:p-10 rounded-3xl max-w-md w-full space-y-6 shadow-2xl">
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 bg-brand-500/10 border-2 border-brand-500 text-brand-400 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold shadow-md">🔒</div>
+        <h1 class="font-pixel text-xl text-white pt-2">ADMIN LOGIN</h1>
+        <p class="text-xs text-zinc-400 font-medium">Enter your secure passcode to access management tools.</p>
       </div>
 
-      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+      <form id="login-form" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Passcode</label>
-          <input id="admin-passcode-input" type="password" maxlength="20" placeholder="••••••••" autocomplete="off" class="w-full bg-zinc-900 border-2 border-brand-500/50 rounded-xl px-4 py-3 text-center text-lg tracking-widest font-mono text-white focus:outline-none focus:border-brand-400">
+          <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Passcode</label>
+          <input type="password" id="passcode-input" placeholder="••••••••" required class="w-full bg-zinc-900 border-2 border-zinc-700 focus:border-brand-500 text-white text-sm px-4 py-3 rounded-xl outline-none transition">
         </div>
-        <p id="admin-error-msg" class="text-xs text-red-400 text-center hidden font-bold">Incorrect passcode. Please try again.</p>
-        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3 rounded-xl transition shadow-lg">Unlock Admin Panel</button>
+
+        <div id="error-msg" class="hidden text-red-400 text-xs font-bold text-center bg-red-950/50 border border-red-800 p-2.5 rounded-xl"></div>
+
+        <button type="submit" id="login-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+          Verify Passcode
+        </button>
       </form>
-    </div>
-
-    <!-- Admin Dashboard Screen -->
-    <div id="admin-dashboard-screen" class="hidden space-y-10">
-      <div class="flex items-center justify-between pb-6 border-b-2 border-brand-500/30">
-        <div>
-          <h1 class="text-3xl font-extrabold text-white">Admin Dashboard</h1>
-          <p class="text-xs text-emerald-400 font-bold mt-1">● Authenticated Session Active</p>
-        </div>
-        <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">Log Out</button>
-      </div>
-
-      <!-- Schematics Upload -->
-      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-xl">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2"><span>⚙️</span> Upload New Schematic File</h2>
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Schematic Title</label>
-            <input id="schem-title" type="text" placeholder="e.g. Spawn Castle V2" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Description (Optional)</label>
-            <input id="schem-desc" type="text" placeholder="e.g. 50x50 PVP Arena Schematic" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Select .schem or .schematic file</label>
-            <input id="schem-file-input" type="file" accept=".schem,.schematic,.litematic" class="w-full text-xs text-zinc-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-zinc-950 hover:file:bg-brand-400 cursor-pointer">
-          </div>
-          <button onclick="handleSchematicUpload()" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-sm py-3 rounded-xl transition shadow-md">Publish Schematic to Server</button>
-          <p id="schem-success-msg" class="text-xs text-emerald-400 text-center hidden font-bold">Successfully uploaded to server!</p>
-        </div>
-        <div class="pt-4 border-t border-brand-500/30">
-          <h3 class="text-sm font-bold text-white mb-3">Manage Server Schematics</h3>
-          <div id="admin-schem-list" class="space-y-2"></div>
-        </div>
-      </div>
-
-      <!-- Gallery Upload -->
-      <div class="glass-card p-6 rounded-3xl space-y-4 shadow-xl">
-        <h2 class="text-lg font-bold text-white flex items-center gap-2"><span>📸</span> Upload Gallery Image</h2>
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Image Title / Description</label>
-            <input id="upload-title" type="text" placeholder="e.g. Spawn Build Season 2" class="w-full bg-zinc-900 border-2 border-brand-500/40 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Select Image File</label>
-            <input id="upload-file-input" type="file" accept="image/*" class="w-full text-xs text-zinc-300 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-zinc-950 hover:file:bg-brand-400 cursor-pointer">
-          </div>
-          <button onclick="handleImageUpload()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm py-3 rounded-xl transition shadow-md">Publish Image to Server</button>
-          <p id="upload-success-msg" class="text-xs text-emerald-400 text-center hidden font-bold">Successfully published image to server!</p>
-        </div>
-        <div class="pt-4 border-t border-brand-500/30">
-          <h3 class="text-sm font-bold text-white mb-3">Manage Server Gallery Images</h3>
-          <div id="admin-gallery-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-        </div>
-      </div>
     </div>
   </main>
 
+  <!-- Admin Dashboard (Hidden by default) -->
+  <div id="dashboard-section" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-8">
+    <div class="glass-card p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h2 class="font-pixel text-xl text-white">ADMIN <span class="text-brand-400">DASHBOARD</span></h2>
+        <p class="text-xs text-zinc-400">Authenticated via Supabase Backend.</p>
+      </div>
+      <button onclick="logout()" class="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">Logout</button>
+    </div>
+
+    <!-- Storage / Asset Management placeholders -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass-card p-6 rounded-3xl space-y-4">
+        <h3 class="font-bold text-white text-base">Gallery Asset Uploader</h3>
+        <p class="text-xs text-zinc-400">Upload new images directly to Supabase storage bucket (`gallery`).</p>
+        <a href="gallery.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Gallery</a>
+      </div>
+
+      <div class="glass-card p-6 rounded-3xl space-y-4">
+        <h3 class="font-bold text-white text-base">Schematics Manager</h3>
+        <p class="text-xs text-zinc-400">Upload and list schematic files in Supabase storage bucket (`schematics`).</p>
+        <a href="schematics.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Schematics</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-6 bg-zinc-950 border-t border-brand-500/20 text-center text-zinc-500 text-xs">
+    STONE<span class="text-brand-400">SMP</span> Admin Portal
+  </footer>
+
   <script>
-    async function handleAdminLogin(event) {
-      event.preventDefault();
-      const passcode = document.getElementById('admin-passcode-input').value.trim();
-      
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode })
-      });
+    const SUPABASE_URL = 'https://pmyxbrlpgocibwintoq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3aW50b3EiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTczODE0MzY5MywiZXhwIjoyMDUzNzE5NjkzfQ.7_3P8iQ_M3f50S6zD0e8dJ-n-G9N6W3X3b9a5C9D0-E';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-      if (res.ok) {
-        sessionStorage.setItem('stonesmp_admin', 'true');
-        showDashboard();
-      } else {
-        document.getElementById('admin-error-msg').classList.remove('hidden');
+    // Check if session exists in sessionStorage
+    if (sessionStorage.getItem('admin_authenticated') === 'true') {
+      showDashboard();
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const inputPasscode = document.getElementById('passcode-input').value.trim();
+      const errorMsg = document.getElementById('error-msg');
+      const loginBtn = document.getElementById('login-btn');
+
+      errorMsg.classList.add('hidden');
+      loginBtn.disabled = true;
+      loginBtn.innerText = 'Verifying...';
+
+      try {
+        // Query Supabase database to verify passcode
+        const { data, error } = await supabaseClient
+          .from('admin_config')
+          .select('passcode')
+          .eq('passcode', inputPasscode)
+          .single();
+
+        if (error || !data) {
+          errorMsg.innerText = 'Invalid Admin Passcode';
+          errorMsg.classList.remove('hidden');
+        } else {
+          sessionStorage.setItem('admin_authenticated', 'true');
+          showDashboard();
+        }
+      } catch (err) {
+        errorMsg.innerText = 'Authentication error. Please try again.';
+        errorMsg.classList.remove('hidden');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerText = 'Verify Passcode';
       }
-    }
-
-    function logoutAdmin() {
-      sessionStorage.removeItem('stonesmp_admin');
-      document.getElementById('admin-dashboard-screen').classList.add('hidden');
-      document.getElementById('admin-login-screen').classList.remove('hidden');
-    }
+    });
 
     function showDashboard() {
-      document.getElementById('admin-login-screen').classList.add('hidden');
-      document.getElementById('admin-dashboard-screen').classList.remove('hidden');
-      loadServerContent();
+      document.getElementById('login-section').classList.add('hidden');
+      document.getElementById('dashboard-section').classList.remove('hidden');
     }
 
-    async function handleSchematicUpload() {
-      const title = document.getElementById('schem-title').value;
-      const desc = document.getElementById('schem-desc').value;
-      const fileInput = document.getElementById('schem-file-input');
-
-      if (fileInput.files[0]) {
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', desc);
-        formData.append('schematic', fileInput.files[0]);
-
-        const res = await fetch('/api/upload/schematic', { method: 'POST', body: formData });
-        if (res.ok) {
-          document.getElementById('schem-title').value = '';
-          document.getElementById('schem-desc').value = '';
-          fileInput.value = '';
-          document.getElementById('schem-success-msg').classList.remove('hidden');
-          setTimeout(() => document.getElementById('schem-success-msg').classList.add('hidden'), 3000);
-          loadServerContent();
-        }
-      }
+    function logout() {
+      sessionStorage.removeItem('admin_authenticated');
+      window.location.reload();
     }
-
-    async function handleImageUpload() {
-      const title = document.getElementById('upload-title').value;
-      const fileInput = document.getElementById('upload-file-input');
-
-      if (fileInput.files[0]) {
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('image', fileInput.files[0]);
-
-        const res = await fetch('/api/upload/gallery', { method: 'POST', body: formData });
-        if (res.ok) {
-          document.getElementById('upload-title').value = '';
-          fileInput.value = '';
-          document.getElementById('upload-success-msg').classList.remove('hidden');
-          setTimeout(() => document.getElementById('upload-success-msg').classList.add('hidden'), 3000);
-          loadServerContent();
-        }
-      }
-    }
-
-    async function loadServerContent() {
-      const res = await fetch('/api/content');
-      const data = await res.json();
-
-      // Render Schematics List
-      const schemContainer = document.getElementById('admin-schem-list');
-      if (data.schematics.length === 0) {
-        schemContainer.innerHTML = '<p class="text-xs text-zinc-500 font-medium">No uploaded schematics yet.</p>';
-      } else {
-        schemContainer.innerHTML = data.schematics.map(item => `
-          <div class="glass-card p-3 rounded-xl flex items-center justify-between gap-3 bg-zinc-900/90">
-            <div class="flex-1 min-w-0">
-              <h4 class="font-bold text-sm text-white truncate">${item.title}</h4>
-              <span class="text-[10px] text-zinc-400 font-bold block">${item.fileName} (${item.fileSize})</span>
-            </div>
-            <button onclick="deleteItem('schematics', ${item.id})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
-          </div>
-        `).join('');
-      }
-
-      // Render Gallery List
-      const galContainer = document.getElementById('admin-gallery-list');
-      if (data.gallery.length === 0) {
-        galContainer.innerHTML = '<p class="text-xs text-zinc-500 font-medium col-span-2">No custom uploaded images yet.</p>';
-      } else {
-        galContainer.innerHTML = data.gallery.map(item => `
-          <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3 bg-zinc-900/90">
-            <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-xl border border-brand-500/50">
-            <div class="flex-1 min-w-0">
-              <h4 class="font-bold text-sm text-white truncate">${item.title}</h4>
-            </div>
-            <button onclick="deleteItem('gallery', ${item.id})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">Delete</button>
-          </div>
-        `).join('');
-      }
-    }
-
-    async function deleteItem(type, id) {
-      await fetch('/api/delete', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, id })
-      });
-      loadServerContent();
-    }
-
-    if (sessionStorage.getItem('stonesmp_admin') === 'true') showDashboard();
   </script>
+
 </body>
 </html>
