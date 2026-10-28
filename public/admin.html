@@ -88,38 +88,39 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="glass-card p-6 rounded-3xl space-y-4 cursor-pointer hover:border-brand-400 transition" onclick="openManager('gallery')">
         <h3 class="font-bold text-white text-base">Gallery Asset Uploader</h3>
-        <p class="text-xs text-zinc-400">Manage screenshots and images in Supabase storage bucket (`gallery`).</p>
+        <p class="text-xs text-zinc-400">Upload images (.svg, .png, .webp, .jpg, .jpeg, .tff) to `gallery` storage.</p>
         <span class="inline-block bg-brand-500 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl">Open Gallery Manager</span>
       </div>
 
       <div class="glass-card p-6 rounded-3xl space-y-4 cursor-pointer hover:border-brand-400 transition" onclick="openManager('schematic')">
         <h3 class="font-bold text-white text-base">Schematics Manager</h3>
-        <p class="text-xs text-zinc-400">Manage WorldEdit/Litematica schematic files in Supabase bucket (`schematics`).</p>
+        <p class="text-xs text-zinc-400">Upload files (.schem, .schematic, .litematic) to `schematics` storage.</p>
         <span class="inline-block bg-brand-500 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl">Open Schematics Manager</span>
       </div>
     </div>
 
-    <!-- Dynamic Inline Manager UI Panel (Appears Below Cards) -->
+    <!-- Dynamic Inline Manager UI Panel -->
     <div id="manager-panel" class="hidden glass-card p-6 sm:p-8 rounded-3xl space-y-6">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
         <div>
           <h3 id="manager-title" class="font-pixel text-lg text-white uppercase">Manager</h3>
-          <p id="manager-subtitle" class="text-xs text-zinc-400">Post new items and delete existing cloud records.</p>
+          <p id="manager-subtitle" class="text-xs text-zinc-400">Upload files directly to storage and manage records.</p>
         </div>
         <button onclick="closeManager()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs px-3 py-1.5 rounded-xl transition">Close Panel ✕</button>
       </div>
 
-      <!-- Add New Item Form -->
+      <!-- File Upload Form -->
       <form id="upload-form" class="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
-        <h4 class="font-bold text-sm text-white">Create New Post</h4>
+        <h4 class="font-bold text-sm text-white">Upload New Item</h4>
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Your Admin Username</label>
             <input type="text" id="post-username" placeholder="e.g. AdminSteve" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Item Title</label>
-            <input type="text" id="post-name" placeholder="e.g. Castle Fortress" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
+            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Item Title / Name</label>
+            <input type="text" id="post-name" placeholder="e.g. Spawn Base" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
           </div>
         </div>
 
@@ -128,15 +129,13 @@
           <input type="text" id="post-desc" placeholder="Brief info about this file..." class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">File Public URL (Storage Link)</label>
-            <input type="url" id="post-url" placeholder="https://...supabase.co/storage/v1/object/..." required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
-          </div>
-          <div class="flex items-end">
-            <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-2.5 rounded-xl transition shadow">Upload & Post</button>
-          </div>
+        <div>
+          <label id="file-label" class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Select File</label>
+          <input type="file" id="post-file" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-zinc-300 text-xs p-2 rounded-xl outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-500 file:text-zinc-950 hover:file:bg-brand-400 file:cursor-pointer">
+          <p id="file-hint" class="text-[10px] text-zinc-500 mt-1">Supported formats will appear here.</p>
         </div>
+
+        <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-3 rounded-xl transition shadow">Upload File & Publish</button>
         <div id="upload-status" class="hidden text-xs font-bold text-center p-2 rounded-xl"></div>
       </form>
 
@@ -218,8 +217,21 @@
       panel.classList.remove('hidden');
       panel.scrollIntoView({ behavior: 'smooth' });
 
-      document.getElementById('manager-title').innerText = type === 'schematic' ? 'Schematics Manager' : 'Gallery Manager';
-      document.getElementById('manager-subtitle').innerText = `Managing records for type: "${type}"`;
+      const fileInput = document.getElementById('post-file');
+      const fileHint = document.getElementById('file-hint');
+
+      if (type === 'schematic') {
+        document.getElementById('manager-title').innerText = 'Schematics Manager';
+        document.getElementById('manager-subtitle').innerText = 'Upload build schematic files to bucket: "schematics"';
+        fileInput.accept = '.schem,.schematic,.litematic';
+        fileHint.innerText = 'Allowed formats: .schem, .schematic, .litematic';
+      } else {
+        document.getElementById('manager-title').innerText = 'Gallery Manager';
+        document.getElementById('manager-subtitle').innerText = 'Upload gallery images to bucket: "gallery"';
+        fileInput.accept = '.svg,.png,.webp,.jpg,.jpeg,.tff';
+        fileHint.innerText = 'Allowed formats: .svg, .png, .webp, .jpg, .jpeg, .tff';
+      }
+
       loadRecords();
     }
 
@@ -253,7 +265,7 @@
               <h5 class="text-xs font-bold text-white truncate">${item.name} <span class="text-[10px] text-zinc-500 font-normal">by ${item.username || 'Unknown'}</span></h5>
               <p class="text-[11px] text-zinc-400 truncate">${item.description || item.url}</p>
             </div>
-            <button onclick="deleteRecord('${item.name}')" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-bold text-xs px-3 py-1.5 rounded-lg transition shrink-0">Delete</button>
+            <button onclick="deleteRecord('${item.name}', '${item.url}')" class="bg-red-600/25 hover:bg-red-600 text-red-400 hover:text-white font-bold text-xs px-3 py-1.5 rounded-lg transition shrink-0">Delete</button>
           `;
           listContainer.appendChild(row);
         });
@@ -268,44 +280,82 @@
       const username = document.getElementById('post-username').value.trim();
       const name = document.getElementById('post-name').value.trim();
       const description = document.getElementById('post-desc').value.trim();
-      const url = document.getElementById('post-url').value.trim();
+      const fileInput = document.getElementById('post-file');
       const status = document.getElementById('upload-status');
       const submitBtn = document.getElementById('submit-btn');
 
+      if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Please select a file to upload.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      
+      const allowedSchematicExts = ['schem', 'schematic', 'litematic'];
+      const allowedGalleryExts = ['svg', 'png', 'webp', 'jpg', 'jpeg', 'tff'];
+
+      if (activeType === 'schematic' && !allowedSchematicExts.includes(fileExt)) {
+        alert('Invalid file type! Schematics must be .schem, .schematic, or .litematic');
+        return;
+      }
+      if (activeType === 'gallery' && !allowedGalleryExts.includes(fileExt)) {
+        alert('Invalid file type! Gallery images must be .svg, .png, .webp, .jpg, .jpeg, or .tff');
+        return;
+      }
+
       submitBtn.disabled = true;
-      submitBtn.innerText = 'Posting...';
+      submitBtn.innerText = 'Uploading to Cloud...';
       status.classList.add('hidden');
 
       try {
-        const { error } = await supabaseClient
+        const filePath = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        
+        // 1. Upload file to Supabase storage bucket (matches activeType: 'schematic' or 'gallery')
+        const { error: uploadError } = await supabaseClient.storage
+          .from(activeType)
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        // 2. Get Public URL
+        const { data: urlData } = supabaseClient.storage
+          .from(activeType)
+          .getPublicUrl(filePath);
+
+        const publicUrl = urlData.publicUrl;
+
+        // 3. Insert record into database table `files`
+        const { error: dbError } = await supabaseClient
           .from('files')
-          .insert([{ name, description, url, type: activeType, username }]);
+          .insert([{ name, description, url: publicUrl, type: activeType, username }]);
 
-        if (error) throw error;
+        if (dbError) throw dbError;
 
-        status.innerText = 'Successfully posted to database!';
+        status.innerText = 'File uploaded and published successfully!';
         status.className = 'text-xs font-bold text-center p-2 rounded-xl bg-emerald-950/50 border border-emerald-800 text-emerald-400';
         status.classList.remove('hidden');
 
         document.getElementById('post-name').value = '';
         document.getElementById('post-desc').value = '';
-        document.getElementById('post-url').value = '';
+        fileInput.value = '';
         loadRecords();
       } catch (err) {
         console.error(err);
-        status.innerText = 'Error posting item. Check table columns.';
+        status.innerText = 'Upload failed: ' + (err.message || 'Check storage bucket permissions.');
         status.className = 'text-xs font-bold text-center p-2 rounded-xl bg-red-950/50 border border-red-800 text-red-400';
         status.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = 'Upload & Post';
+        submitBtn.innerText = 'Upload File & Publish';
       }
     });
 
-    async function deleteRecord(name) {
+    async function deleteRecord(name, fileUrl) {
       if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
 
       try {
+        // Delete record from database table
         const { error } = await supabaseClient
           .from('files')
           .delete()
