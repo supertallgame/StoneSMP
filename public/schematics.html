@@ -109,8 +109,7 @@
         const { data, error } = await supabaseClient
           .from('files')
           .select('*')
-          .eq('type', 'schematic')
-          .order('id', { ascending: false });
+          .eq('type', 'schematic');
 
         if (error) throw error;
 
