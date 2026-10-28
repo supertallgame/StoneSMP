@@ -11,7 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Load local bundled Supabase library first -->
   <script src="js/supabase.js"></script>
   <script>
     tailwind.config = {
@@ -31,7 +30,6 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
@@ -48,7 +46,6 @@
     </div>
   </header>
 
-  <!-- Login Section -->
   <main id="login-section" class="flex-1 flex items-center justify-center p-4">
     <div class="glass-card p-8 sm:p-10 rounded-3xl max-w-md w-full space-y-6 shadow-2xl">
       <div class="text-center space-y-2">
@@ -72,7 +69,6 @@
     </div>
   </main>
 
-  <!-- Admin Dashboard -->
   <div id="dashboard-section" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-8">
     <div class="glass-card p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
@@ -97,15 +93,13 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="py-6 bg-zinc-950 border-t border-brand-500/20 text-center text-zinc-500 text-xs">
     STONE<span class="text-brand-400">SMP</span> Admin Portal
   </footer>
 
   <script>
-    // Corrected Supabase URL with the proper 's' in pmyxbrlpgocibwsintoq
     const SUPABASE_URL = 'https://pmyxbrlpgocibwsintoq.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3c2ludG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNDM2OTMsImV4cCI6MjA1MzcxOTY5M30.7_3P8iQ_M3f50S6zD0e8dJ-n-G9N6W3X3b9a5C9D0-E';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3c2ludG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNjM3ODYsImV4cCI6MjEwODYzOTc4Nn0.54Dtt8oy8RXHxI2bFXdAvjmt2VDMB8AA_oFcQEarqoo';
     
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: {
