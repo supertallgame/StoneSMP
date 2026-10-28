@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery | StoneSMP Season 2</title>
+  <title>StoneSMP | Gallery</title>
   
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -26,13 +26,10 @@
   <style>
     body { background-color: #09090b; }
     .glass-card { background: rgba(24, 24, 27, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(234, 179, 8, 0.5); transition: all 0.3s ease; }
-    .glass-card:hover { border-color: rgba(234, 179, 8, 1); transform: translateY(-2px); }
-    .bg-grid-pattern { background-image: radial-gradient(rgba(234, 179, 8, 0.15) 1.5px, transparent 1.5px); background-size: 24px 24px; }
   </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
@@ -49,94 +46,95 @@
         <a href="index.html#info" class="hover:text-brand-400 transition">Server Info</a>
         <a href="index.html#commands" class="hover:text-brand-400 transition">Commands</a>
         <a href="index.html#rules" class="hover:text-brand-400 transition">Rules</a>
-        <a href="gallery.html" class="hover:text-brand-400 transition text-brand-400">Gallery</a>
+        <a href="gallery.html" class="text-brand-400 transition">Gallery</a>
         <a href="schematics.html" class="hover:text-brand-400 transition">Schematics</a>
         <a href="index.html#vote" class="hover:text-brand-400 transition">Vote</a>
       </nav>
 
       <div class="flex items-center gap-3">
-        <a href="https://discord.gg/mt4ny7vZB" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Discord (146)</a>
+        <a href="https://discord.gg/mt4ny7vZB" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Discord</a>
         <a href="admin.html" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md">Admin Portal</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Banner -->
-  <section class="py-12 bg-grid-pattern border-b-2 border-brand-500/30">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-      <h1 class="font-pixel text-3xl sm:text-5xl text-white tracking-tight mb-4">SERVER <span class="text-brand-400">GALLERY</span></h1>
-      <p class="text-sm sm:text-base text-zinc-300 font-medium max-w-xl mx-auto">Snapshots, community builds, and epic combat moments from StoneSMP Season 2.</p>
+  <main class="py-16 max-w-6xl mx-auto px-4 sm:px-6 w-full flex-1">
+    <div class="text-center mb-16">
+      <h1 class="font-pixel text-3xl sm:text-5xl text-white mb-3">SERVER <span class="text-brand-400">GALLERY</span></h1>
+      <p class="text-sm text-zinc-400 font-medium">Explore screenshots of epic bases, builds, and fights from StoneSMP.</p>
     </div>
-  </section>
 
-  <!-- Gallery Grid -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 flex-1 w-full">
-    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="col-span-full text-center py-16 text-zinc-500 font-medium text-sm">Loading cloud gallery images...</div>
+    <div id="gallery-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-20 text-zinc-400 text-sm font-medium" id="loading-msg">
+        Loading gallery images...
+      </div>
     </div>
   </main>
 
-  <!-- Lightbox Modal -->
-  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
-    <div class="relative max-w-4xl w-full" onclick="event.stopPropagation()">
-      <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white hover:text-brand-400 font-bold text-sm">✕ Close</button>
-      <img id="lightbox-img" src="" alt="Full View" class="w-full h-auto max-h-[80vh] object-contain rounded-2xl border-2 border-brand-500 shadow-2xl">
-      <h3 id="lightbox-title" class="text-center text-white font-bold text-lg mt-4"></h3>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="mt-auto py-10 bg-zinc-900 border-t-2 border-brand-500/30 text-zinc-400 text-xs">
+  <footer class="py-10 bg-zinc-950 border-t-2 border-brand-500/30 text-zinc-400 text-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-      <span class="font-pixel text-xs text-white">STONE<span class="text-brand-400">SMP</span></span>
-      <a href="admin.html" class="text-[10px] text-zinc-400 hover:text-white uppercase tracking-widest font-bold transition">Admin Panel</a>
+      <span class="font-pixel text-xs text-white">STONE<span class="text-brand-400">SMP</span> © 2026</span>
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="hover:text-white transition font-bold">Home</a>
+        <a href="schematics.html" class="hover:text-white transition font-bold">Schematics</a>
+        <a href="admin.html" class="hover:text-white transition font-bold">Admin Portal</a>
+      </div>
     </div>
   </footer>
 
   <script>
     const SUPABASE_URL = 'https://pmyxbrlpgocibwsintoq.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_eLFYtTolpVYCTcJc1z8mfw_RwJLHi-y';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function fetchGallery() {
-      const grid = document.getElementById('gallery-grid');
-      const { data, error } = await supabaseClient.from('files').select('*').eq('type', 'gallery').order('id', { ascending: false });
-
-      if (error || !data || data.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-16 glass-card rounded-3xl p-8">
-            <svg class="w-12 h-12 text-brand-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <h3 class="font-bold text-lg text-white mb-1">No Gallery Images Yet</h3>
-            <p class="text-xs text-zinc-400 font-medium">Upload images from the Admin Portal to display them here.</p>
-          </div>
-        `;
-        return;
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3c2ludG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNjM3ODYsImV4cCI6MjEwODYzOTc4Nn0.54Dtt8oy8RXHxI2bFXdAvjmt2VDMB8AA_oFcQEarqoo';
+    
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
       }
+    });
 
-      grid.innerHTML = data.map(item => `
-        <div onclick="openLightbox('${item.file_url}', '${item.title.replace(/'/g, "\\'")}')" class="glass-card rounded-2xl overflow-hidden group cursor-pointer shadow-xl">
-          <div class="aspect-video w-full overflow-hidden bg-zinc-900">
-            <img src="${item.file_url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-          </div>
-          <div class="p-4 bg-zinc-900/90 border-t border-brand-500/30">
-            <h3 class="font-bold text-white text-sm truncate">${item.title}</h3>
-            <span class="text-[10px] text-brand-400 font-bold uppercase tracking-wider block mt-1">StoneSMP Snapshot</span>
-          </div>
-        </div>
-      `).join('');
+    async function loadGallery() {
+      const container = document.getElementById('gallery-container');
+      const loadingMsg = document.getElementById('loading-msg');
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('files')
+          .select('*')
+          .eq('type', 'gallery')
+          .order('id', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          loadingMsg.innerText = 'No gallery images uploaded yet.';
+          return;
+        }
+
+        container.innerHTML = '';
+        data.forEach(file => {
+          const card = document.createElement('div');
+          card.className = 'glass-card rounded-3xl overflow-hidden shadow-xl flex flex-col';
+          card.innerHTML = `
+            <div class="h-48 overflow-hidden bg-zinc-900">
+              <img src="${file.url}" alt="${file.name}" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+            </div>
+            <div class="p-5 flex flex-col justify-between flex-1 space-y-2">
+              <h3 class="text-base font-bold text-white">${file.name}</h3>
+              <p class="text-xs text-zinc-400">${file.description || ''}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Error loading gallery:', err);
+        loadingMsg.innerText = 'Failed to load gallery images from cloud storage.';
+      }
     }
 
-    function openLightbox(src, title) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-title').innerText = title;
-      document.getElementById('lightbox-modal').classList.remove('hidden');
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox-modal').classList.add('hidden');
-    }
-
-    fetchGallery();
+    loadGallery();
   </script>
+
 </body>
 </html>
