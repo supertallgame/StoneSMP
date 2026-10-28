@@ -30,6 +30,7 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
+  <!-- Header -->
   <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/90 border-b-2 border-brand-500/40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-3 group">
@@ -46,6 +47,7 @@
     </div>
   </header>
 
+  <!-- Login Section -->
   <main id="login-section" class="flex-1 flex items-center justify-center p-4">
     <div class="glass-card p-8 sm:p-10 rounded-3xl max-w-md w-full space-y-6 shadow-2xl">
       <div class="text-center space-y-2">
@@ -55,6 +57,9 @@
       </div>
 
       <form id="login-form" class="space-y-4">
+        <!-- Hidden username field to satisfy password form accessibility -->
+        <input type="text" name="username" autocomplete="username" value="admin" class="hidden" aria-hidden="true">
+
         <div>
           <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Passcode</label>
           <input type="password" id="passcode-input" placeholder="••••••••" autocomplete="current-password" required class="w-full bg-zinc-900 border-2 border-zinc-700 focus:border-brand-500 text-white text-sm px-4 py-3 rounded-xl outline-none transition">
@@ -69,6 +74,7 @@
     </div>
   </main>
 
+  <!-- Admin Dashboard -->
   <div id="dashboard-section" class="hidden flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-8">
     <div class="glass-card p-6 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
@@ -78,21 +84,73 @@
       <button onclick="logout()" class="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition">Logout</button>
     </div>
 
+    <!-- Management Selector Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="glass-card p-6 rounded-3xl space-y-4">
+      <div class="glass-card p-6 rounded-3xl space-y-4 cursor-pointer hover:border-brand-400 transition" onclick="openManager('gallery')">
         <h3 class="font-bold text-white text-base">Gallery Asset Uploader</h3>
-        <p class="text-xs text-zinc-400">Upload new images directly to Supabase storage bucket (`gallery`).</p>
-        <a href="gallery.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Gallery</a>
+        <p class="text-xs text-zinc-400">Manage screenshots and images in Supabase storage bucket (`gallery`).</p>
+        <span class="inline-block bg-brand-500 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl">Open Gallery Manager</span>
       </div>
 
-      <div class="glass-card p-6 rounded-3xl space-y-4">
+      <div class="glass-card p-6 rounded-3xl space-y-4 cursor-pointer hover:border-brand-400 transition" onclick="openManager('schematic')">
         <h3 class="font-bold text-white text-base">Schematics Manager</h3>
-        <p class="text-xs text-zinc-400">Upload and list schematic files in Supabase storage bucket (`schematics`).</p>
-        <a href="schematics.html" class="inline-block bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">Manage Schematics</a>
+        <p class="text-xs text-zinc-400">Manage WorldEdit/Litematica schematic files in Supabase bucket (`schematics`).</p>
+        <span class="inline-block bg-brand-500 text-zinc-950 font-bold text-xs px-4 py-2.5 rounded-xl">Open Schematics Manager</span>
+      </div>
+    </div>
+
+    <!-- Dynamic Inline Manager UI Panel (Appears Below Cards) -->
+    <div id="manager-panel" class="hidden glass-card p-6 sm:p-8 rounded-3xl space-y-6">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+        <div>
+          <h3 id="manager-title" class="font-pixel text-lg text-white uppercase">Manager</h3>
+          <p id="manager-subtitle" class="text-xs text-zinc-400">Post new items and delete existing cloud records.</p>
+        </div>
+        <button onclick="closeManager()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-xs px-3 py-1.5 rounded-xl transition">Close Panel ✕</button>
+      </div>
+
+      <!-- Add New Item Form -->
+      <form id="upload-form" class="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 space-y-4">
+        <h4 class="font-bold text-sm text-white">Create New Post</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Your Admin Username</label>
+            <input type="text" id="post-username" placeholder="e.g. AdminSteve" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Item Title</label>
+            <input type="text" id="post-name" placeholder="e.g. Castle Fortress" required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">Description / Notes</label>
+          <input type="text" id="post-desc" placeholder="Brief info about this file..." class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[11px] font-bold text-zinc-300 uppercase mb-1">File Public URL (Storage Link)</label>
+            <input type="url" id="post-url" placeholder="https://...supabase.co/storage/v1/object/..." required class="w-full bg-zinc-900 border border-zinc-700 focus:border-brand-500 text-white text-xs px-3 py-2.5 rounded-xl outline-none">
+          </div>
+          <div class="flex items-end">
+            <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-zinc-950 font-bold text-xs py-2.5 rounded-xl transition shadow">Upload & Post</button>
+          </div>
+        </div>
+        <div id="upload-status" class="hidden text-xs font-bold text-center p-2 rounded-xl"></div>
+      </form>
+
+      <!-- Existing Records List -->
+      <div class="space-y-3">
+        <h4 class="font-bold text-sm text-white">Existing Database Entries</h4>
+        <div id="records-list" class="space-y-2 max-h-80 overflow-y-auto pr-2">
+          <p class="text-xs text-zinc-500">Loading records...</p>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer class="py-6 bg-zinc-950 border-t border-brand-500/20 text-center text-zinc-500 text-xs">
     STONE<span class="text-brand-400">SMP</span> Admin Portal
   </footer>
@@ -102,12 +160,10 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBteXhicmxwZ29jaWJ3c2ludG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNjM3ODYsImV4cCI6MjEwODYzOTc4Nn0.54Dtt8oy8RXHxI2bFXdAvjmt2VDMB8AA_oFcQEarqoo';
     
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false
-      }
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
     });
+
+    let activeType = 'schematic';
 
     if (sessionStorage.getItem('admin_authenticated') === 'true') {
       showDashboard();
@@ -154,6 +210,114 @@
     function logout() {
       sessionStorage.removeItem('admin_authenticated');
       window.location.reload();
+    }
+
+    function openManager(type) {
+      activeType = type;
+      const panel = document.getElementById('manager-panel');
+      panel.classList.remove('hidden');
+      panel.scrollIntoView({ behavior: 'smooth' });
+
+      document.getElementById('manager-title').innerText = type === 'schematic' ? 'Schematics Manager' : 'Gallery Manager';
+      document.getElementById('manager-subtitle').innerText = `Managing records for type: "${type}"`;
+      loadRecords();
+    }
+
+    function closeManager() {
+      document.getElementById('manager-panel').classList.add('hidden');
+    }
+
+    async function loadRecords() {
+      const listContainer = document.getElementById('records-list');
+      listContainer.innerHTML = '<p class="text-xs text-zinc-500">Loading records...</p>';
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('files')
+          .select('*')
+          .eq('type', activeType);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          listContainer.innerHTML = '<p class="text-xs text-zinc-500">No records found for this category.</p>';
+          return;
+        }
+
+        listContainer.innerHTML = '';
+        data.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'flex items-center justify-between bg-zinc-900 border border-zinc-800 p-3 rounded-xl';
+          row.innerHTML = `
+            <div class="overflow-hidden pr-4">
+              <h5 class="text-xs font-bold text-white truncate">${item.name} <span class="text-[10px] text-zinc-500 font-normal">by ${item.username || 'Unknown'}</span></h5>
+              <p class="text-[11px] text-zinc-400 truncate">${item.description || item.url}</p>
+            </div>
+            <button onclick="deleteRecord('${item.name}')" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-bold text-xs px-3 py-1.5 rounded-lg transition shrink-0">Delete</button>
+          `;
+          listContainer.appendChild(row);
+        });
+      } catch (err) {
+        console.error(err);
+        listContainer.innerHTML = '<p class="text-xs text-red-400">Failed to load database items.</p>';
+      }
+    }
+
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('post-username').value.trim();
+      const name = document.getElementById('post-name').value.trim();
+      const description = document.getElementById('post-desc').value.trim();
+      const url = document.getElementById('post-url').value.trim();
+      const status = document.getElementById('upload-status');
+      const submitBtn = document.getElementById('submit-btn');
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Posting...';
+      status.classList.add('hidden');
+
+      try {
+        const { error } = await supabaseClient
+          .from('files')
+          .insert([{ name, description, url, type: activeType, username }]);
+
+        if (error) throw error;
+
+        status.innerText = 'Successfully posted to database!';
+        status.className = 'text-xs font-bold text-center p-2 rounded-xl bg-emerald-950/50 border border-emerald-800 text-emerald-400';
+        status.classList.remove('hidden');
+
+        document.getElementById('post-name').value = '';
+        document.getElementById('post-desc').value = '';
+        document.getElementById('post-url').value = '';
+        loadRecords();
+      } catch (err) {
+        console.error(err);
+        status.innerText = 'Error posting item. Check table columns.';
+        status.className = 'text-xs font-bold text-center p-2 rounded-xl bg-red-950/50 border border-red-800 text-red-400';
+        status.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Upload & Post';
+      }
+    });
+
+    async function deleteRecord(name) {
+      if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from('files')
+          .delete()
+          .eq('name', name)
+          .eq('type', activeType);
+
+        if (error) throw error;
+        loadRecords();
+      } catch (err) {
+        alert('Failed to delete item from database.');
+        console.error(err);
+      }
     }
   </script>
 
